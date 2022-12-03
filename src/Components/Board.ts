@@ -1,6 +1,7 @@
 import Canvas, { CellTypes } from "./Canvas";
+import { Coordinate } from "./Character";
 import Enemy from "./Enemy";
-import Player, { Coordinate } from "./Player";
+import Player from "./Player";
 
 class Board {
   player: Player;
@@ -26,7 +27,9 @@ class Board {
 
     if (updatedCoordinate && this.moveInBounds(updatedCoordinate)) {
       if (this.enemyEncounter(updatedCoordinate, this.enemy)) {
-        console.log('attack!');
+        this.player.battle(this.enemy);
+        console.log(this.player.getHP());
+        console.log(this.enemy.getHP());
         
       } else {
         this.player.setPosition(updatedCoordinate);

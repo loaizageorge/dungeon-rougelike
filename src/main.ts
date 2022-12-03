@@ -9,11 +9,16 @@ const canvas = new Canvas(document.getElementById("dungeon-crawler") as HTMLCanv
 const player = new Player({
   position: {x: 0, y: 2},
   health: 10,
-  attack: 1,
+  attack: 5,
   type: CellTypes.HERO
 });
 
-const enemy = new Enemy({x: 9, y: 9});
+const enemy = new Enemy({
+  position: {x: 9, y: 9},
+  health: 10,
+  attack: 1,
+  type: CellTypes.ENEMY
+});
 const board = new Board(canvas, player, enemy);
 
 canvas.drawBlankBoard();

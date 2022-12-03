@@ -1,14 +1,5 @@
-import { Coordinate } from './Player';
+import Character from './Character';
 
-export default class Enemy {
-  position: Coordinate;
-
-  constructor(position: Coordinate) {
-    this.position = position;
-  }
-
-  getPosition(): Coordinate {
-    return this.position;
-  }
+export default class Enemy extends Character {
 }
 

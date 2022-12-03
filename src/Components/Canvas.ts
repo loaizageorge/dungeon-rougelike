@@ -1,4 +1,4 @@
-import { Coordinate } from "./Player";
+import { Coordinate } from "./Character";
 
 const WIDTH = 400;
 const HEIGHT = 400;

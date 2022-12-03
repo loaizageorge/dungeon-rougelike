@@ -10,7 +10,12 @@ test("Player cannot move out of bounds", () => {
   attack: 1,
   type: CellTypes.HERO
 });
-  const enemy = new Enemy({x: 1, y: 1});
+  const enemy = new Enemy({
+    position: {x: 1, y: 1},
+    health: 10,
+    attack: 1,
+    type: CellTypes.ENEMY
+  });
   const canvas = new Canvas(document.createElement('canvas'));
   const board = new Board(canvas, player, enemy);
 
@@ -37,7 +42,12 @@ test("Player can move in bounds", () => {
   type: CellTypes.HERO
 });
   const canvas = new Canvas(document.createElement('canvas'));
-  const enemy = new Enemy({x: 1, y: 1});
+  const enemy = new Enemy({
+    position: {x: 0, y: 1},
+    health: 10,
+    attack: 1,
+    type: CellTypes.ENEMY
+  });
   const board = new Board(canvas, player, enemy);
 
   player.setPosition({x: 1, y: 1});
@@ -47,17 +57,22 @@ test("Player can move in bounds", () => {
   expect(board.moveInBounds(player.moveDown())).toBe(true);
 })
 
-test("Player can encounter enemies", () => {
-  // enemy is below player
-  const player = new Player({
-  position: {x: 0, y: 0},
-  health: 10,
-  attack: 1,
-  type: CellTypes.HERO
-});
-  const enemy = new Enemy({x: 0, y: 1});
-  const canvas = new Canvas(document.createElement('canvas'));
-  const board = new Board(canvas, player, enemy);
+// test("Player can attack enemies", () => {
+//   const player = new Player({
+//     position: {x: 0, y: 0},
+//     health: 10,
+//     attack: 1,
+//     type: CellTypes.HERO
+//     });
+  
+//     const enemy = new Enemy({
+//       position: {x: 0, y: 1},
+//       health: 10,
+//       attack: 1,
+//       type: CellTypes.ENEMY
+//     });
+//     const canvas = new Canvas(document.createElement('canvas'));
+//     const board = new Board(canvas, player, enemy);
 
-  expect(board.enemyEncounter(player.moveDown(), enemy)).toBe(true);
-})
+
+// })
