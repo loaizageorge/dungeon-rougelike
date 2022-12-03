@@ -2,16 +2,19 @@ import Canvas, { CellTypes } from "./Canvas";
 import { Coordinate } from "./Character";
 import Enemy from "./Enemy";
 import Player from "./Player";
+import PlayerStats from "./PlayerStats";
 
 class Board {
   player: Player;
   canvas: Canvas;
   enemy: Enemy;
+  playerStats: PlayerStats;
 
-  constructor(canvas: Canvas, player: Player, enemy: Enemy) {
+  constructor(canvas: Canvas, player: Player, enemy: Enemy, playerStats: PlayerStats) {
     this.player = player;
     this.canvas = canvas;
     this.enemy = enemy;
+    this.playerStats = playerStats;
   }
 
   handleKeyPress = (e: { keyCode: number; }): void => {
@@ -28,8 +31,7 @@ class Board {
     if (updatedCoordinate && this.moveInBounds(updatedCoordinate)) {
       if (this.enemyEncounter(updatedCoordinate, this.enemy)) {
         this.player.battle(this.enemy);
-        console.log(this.player.getHP());
-        console.log(this.enemy.getHP());
+        this.playerStats.displayStats(this.player);
         
       } else {
         this.player.setPosition(updatedCoordinate);

@@ -2,6 +2,7 @@ import Player from "./Player";
 import Board from "./Board";
 import Canvas, { CellTypes } from "./Canvas";
 import Enemy from "./Enemy";
+import PlayerStats from "./PlayerStats";
 
 test("Player cannot move out of bounds", () => {
   const player = new Player({
@@ -17,7 +18,8 @@ test("Player cannot move out of bounds", () => {
     type: CellTypes.ENEMY
   });
   const canvas = new Canvas(document.createElement('canvas'));
-  const board = new Board(canvas, player, enemy);
+  const playerStats = new PlayerStats();
+  const board = new Board(canvas, player, enemy, playerStats);
 
   // left bound
   expect(board.moveInBounds(player.moveLeft())).toBe(false);
@@ -48,7 +50,8 @@ test("Player can move in bounds", () => {
     attack: 1,
     type: CellTypes.ENEMY
   });
-  const board = new Board(canvas, player, enemy);
+  const playerStats = new PlayerStats();
+  const board = new Board(canvas, player, enemy, playerStats);
 
   player.setPosition({x: 1, y: 1});
   expect(board.moveInBounds(player.moveLeft())).toBe(true);

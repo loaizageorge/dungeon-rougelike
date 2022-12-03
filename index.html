@@ -7,7 +7,13 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <canvas width="400" height="400" id="dungeon-crawler"></canvas>
+    <div id="game">
+      <canvas width="400" height="400" id="dungeon-crawler"></canvas>
+      <div id="player-stats">
+        <span id="player-health"></span>
+        <span id="player-attack"></span>
+      </div>
+    </div>
     <script defer type="module" src="/src/main.ts"></script>
   </body>
 </html>

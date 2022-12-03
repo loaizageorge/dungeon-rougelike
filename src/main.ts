@@ -1,9 +1,11 @@
 import './style.css'
+import './game.css';
 
 import Board from './Components/Board'
 import Player from './Components/Player';
 import Canvas, { CellTypes } from './Components/Canvas';
 import Enemy from './Components/Enemy';
+import PlayerStats from './Components/PlayerStats';
 
 const canvas = new Canvas(document.getElementById("dungeon-crawler") as HTMLCanvasElement);
 const player = new Player({
@@ -19,7 +21,11 @@ const enemy = new Enemy({
   attack: 1,
   type: CellTypes.ENEMY
 });
-const board = new Board(canvas, player, enemy);
+
+const playerStats = new PlayerStats();
+playerStats.displayStats(player);
+const board = new Board(canvas, player, enemy, playerStats);
+
 
 canvas.drawBlankBoard();
 board.addArrowKeyListener();
