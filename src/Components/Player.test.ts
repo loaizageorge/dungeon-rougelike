@@ -1,9 +1,15 @@
 // https://codingwithmanny.medium.com/quick-jest-setup-with-vitejs-react-typescript-82f325e4323f
 
+import { CellTypes } from './Canvas';
 import Player from './Player';
 
 test("Player can move", () => {
-  const player = new Player({x: 0, y:0});
+  const player = new Player({
+    position: {x: 0, y: 0},
+    health: 10,
+    attack: 1,
+    type: CellTypes.HERO
+  });
 
   player.setPosition(player.moveDown());
   expect(player.getXCoord()).toBe(0);
@@ -21,3 +27,37 @@ test("Player can move", () => {
   expect(player.getXCoord()).toBe(0);
   expect(player.getYCoord()).toBe(0);
 });
+
+test("Player can gain health", () => {
+  const player = new Player({
+    position: {x: 0, y: 0},
+    health: 10,
+    attack: 1,
+    type: CellTypes.HERO
+  });
+  player.changeHP(5);
+  expect(player.getHP()).toBe(15);
+})
+
+test("Player can lose health", () => {
+  const player = new Player({
+    position: {x: 0, y: 0},
+    health: 10,
+    attack: 1,
+    type: CellTypes.HERO
+  });
+  player.changeHP(-5);
+  expect(player.getHP()).toBe(5);
+})
+
+test("Player can die", () => {
+  const player = new Player({
+    position: {x: 0, y: 0},
+    health: 10,
+    attack: 1,
+    type: CellTypes.HERO
+  });
+  player.changeHP(-10);
+  expect(player.getHP()).toBe(0);
+  expect(player.dead()).toBe(true);
+})

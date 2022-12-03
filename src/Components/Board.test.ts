@@ -1,10 +1,15 @@
 import Player from "./Player";
 import Board from "./Board";
-import Canvas from "./Canvas";
+import Canvas, { CellTypes } from "./Canvas";
 import Enemy from "./Enemy";
 
 test("Player cannot move out of bounds", () => {
-  const player = new Player({x: 0, y: 0});
+  const player = new Player({
+  position: {x: 0, y: 0},
+  health: 10,
+  attack: 1,
+  type: CellTypes.HERO
+});
   const enemy = new Enemy({x: 1, y: 1});
   const canvas = new Canvas(document.createElement('canvas'));
   const board = new Board(canvas, player, enemy);
@@ -25,7 +30,12 @@ test("Player cannot move out of bounds", () => {
 });
 
 test("Player can move in bounds", () => {
-  const player = new Player({x: 0, y: 0});
+  const player = new Player({
+  position: {x: 0, y: 0},
+  health: 10,
+  attack: 1,
+  type: CellTypes.HERO
+});
   const canvas = new Canvas(document.createElement('canvas'));
   const enemy = new Enemy({x: 1, y: 1});
   const board = new Board(canvas, player, enemy);
@@ -38,8 +48,13 @@ test("Player can move in bounds", () => {
 })
 
 test("Player can encounter enemies", () => {
-  // enemy is a cell below player
-  const player = new Player({x: 0, y: 0});
+  // enemy is below player
+  const player = new Player({
+  position: {x: 0, y: 0},
+  health: 10,
+  attack: 1,
+  type: CellTypes.HERO
+});
   const enemy = new Enemy({x: 0, y: 1});
   const canvas = new Canvas(document.createElement('canvas'));
   const board = new Board(canvas, player, enemy);

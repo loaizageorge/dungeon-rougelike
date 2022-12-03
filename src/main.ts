@@ -6,7 +6,13 @@ import Canvas, { CellTypes } from './Components/Canvas';
 import Enemy from './Components/Enemy';
 
 const canvas = new Canvas(document.getElementById("dungeon-crawler") as HTMLCanvasElement);
-const player = new Player({x: 0, y: 2});
+const player = new Player({
+  position: {x: 0, y: 2},
+  health: 10,
+  attack: 1,
+  type: CellTypes.HERO
+});
+
 const enemy = new Enemy({x: 9, y: 9});
 const board = new Board(canvas, player, enemy);
 

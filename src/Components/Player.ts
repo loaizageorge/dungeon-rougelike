@@ -1,10 +1,25 @@
+import { CellTypes } from './Canvas';
 export type Coordinate = { x: number; y: number };
+
+
+interface Attributes {
+  position: Coordinate,
+  health: number,
+  attack: number,
+  type: CellTypes
+}
 
 class Player {
   position: Coordinate;
+  health: number;
+  attack: number;
+  type: CellTypes;
 
-  constructor(position: Coordinate) {
+  constructor({position, health, attack, type}: Attributes) {
     this.position  = position;
+    this.health = health;
+    this.attack = attack;
+    this.type = type;
   }
 
   move(keyCode: number): Coordinate | false {
@@ -44,6 +59,8 @@ class Player {
   }
 
   /* GETTERS & SETTERS */
+
+  // Position
   getPosition(): Coordinate {
     return this.position;
   }
@@ -52,6 +69,7 @@ class Player {
     this.position = position;
   }
 
+  
   getXCoord(): number {
     return this.position.x;
   }
@@ -59,6 +77,26 @@ class Player {
   getYCoord(): number {
     return this.position.y;
   }
+
+  // Health
+  getHP(): number {
+    return this.health;
+  }
+
+  setHP(hp: number) {
+    return this.health = hp;
+  }
+
+  changeHP(hpModifier: number) {
+    this.setHP(this.getHP() + hpModifier);
+  }
+  
+  // Status
+  dead(): boolean {
+    return this.getHP() <= 0;
+  }
+
+  
 }
 
 export default Player;
