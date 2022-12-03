@@ -4,6 +4,11 @@ const WIDTH = 400;
 const HEIGHT = 400;
 const BOX_SIZE = 40;
 
+export enum CellTypes {
+  ENEMY = 'red',
+  HERO = 'black'
+}
+
 export default class Canvas {
   canvas: HTMLCanvasElement;
 
@@ -32,13 +37,14 @@ export default class Canvas {
     }
   }
 
-  placeOnBoard(position: Coordinate): void {
+  placeOnBoard(position: Coordinate, type: CellTypes): void {
     const context =  this.canvas.getContext('2d');
     if (!context) {
       throw Error('Canvas not defined');
     }
 
-    context.fillStyle = 'black';
+    context.fillStyle = type;
+    context.strokeStyle = 'black';
     context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
   }
 
@@ -49,8 +55,9 @@ export default class Canvas {
     }
 
     context.fillStyle = 'white';
-    context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
     context.strokeStyle = 'black';
+
+    context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
     context.strokeRect(position.x * 40,position.y * 40, BOX_SIZE, BOX_SIZE);
   }
 }

@@ -2,11 +2,9 @@ export type Coordinate = { x: number; y: number };
 
 class Player {
   position: Coordinate;
-  previousPosition: Coordinate;
 
-  constructor (position: Coordinate) {
+  constructor(position: Coordinate) {
     this.position  = position;
-    this.previousPosition = position;
   }
 
   move(keyCode: number): Coordinate | false {
@@ -52,14 +50,6 @@ class Player {
 
   setPosition(position: Coordinate): void {
     this.position = position;
-  }
-
-  getPreviousPosition(): Coordinate {
-    return this.previousPosition;
-  }
-
-  setPreviousPosition(position: Coordinate): void {
-    this.previousPosition = position;
   }
 
   getXCoord(): number {

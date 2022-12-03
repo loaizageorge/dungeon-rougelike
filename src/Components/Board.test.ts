@@ -1,11 +1,13 @@
 import Player from "./Player";
 import Board from "./Board";
 import Canvas from "./Canvas";
+import Enemy from "./Enemy";
 
 test("Player cannot move out of bounds", () => {
   const player = new Player({x: 0, y: 0});
+  const enemy = new Enemy({x: 1, y: 1});
   const canvas = new Canvas(document.createElement('canvas'));
-  const board = new Board(canvas, player);
+  const board = new Board(canvas, player, enemy);
 
   // left bound
   expect(board.moveInBounds(player.moveLeft())).toBe(false);
@@ -25,11 +27,22 @@ test("Player cannot move out of bounds", () => {
 test("Player can move in bounds", () => {
   const player = new Player({x: 0, y: 0});
   const canvas = new Canvas(document.createElement('canvas'));
-  const board = new Board(canvas, player);
+  const enemy = new Enemy({x: 1, y: 1});
+  const board = new Board(canvas, player, enemy);
 
   player.setPosition({x: 1, y: 1});
   expect(board.moveInBounds(player.moveLeft())).toBe(true);
   expect(board.moveInBounds(player.moveUp())).toBe(true);
   expect(board.moveInBounds(player.moveRight())).toBe(true);
   expect(board.moveInBounds(player.moveDown())).toBe(true);
+})
+
+test("Player can encounter enemies", () => {
+  // enemy is a cell below player
+  const player = new Player({x: 0, y: 0});
+  const enemy = new Enemy({x: 0, y: 1});
+  const canvas = new Canvas(document.createElement('canvas'));
+  const board = new Board(canvas, player, enemy);
+
+  expect(board.enemyEncounter(player.moveDown(), enemy)).toBe(true);
 })
