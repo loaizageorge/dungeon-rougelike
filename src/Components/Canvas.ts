@@ -6,7 +6,14 @@ const BOX_SIZE = 40;
 
 export enum CellTypes {
   ENEMY = 'red',
-  HERO = 'black'
+  HERO = 'black',
+  HEALTH = 'purple',
+  ATTACK = 'orange'
+}
+
+export enum ItemTypes {
+  HEALTH,
+  ATTACK
 }
 
 export default class Canvas {

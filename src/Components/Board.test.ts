@@ -1,4 +1,4 @@
-import testSetup from './testSetup';
+import {testSetup} from './testSetup';
 
 test("Player cannot move out of bounds", () => {
   const board = testSetup();

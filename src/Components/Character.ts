@@ -83,6 +83,11 @@ class Character {
     return this.attack;
   }
 
+  setAttack(attack: number) {
+    this.attack = attack;
+  }
+
+
   // Health
   getHP(): number {
     return this.health;
