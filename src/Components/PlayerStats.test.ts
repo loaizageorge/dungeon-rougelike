@@ -1,12 +1,12 @@
-import { CellTypes } from "./Canvas";
+import { CellTypes } from "./Cell";
 import Player from "./Player";
 import PlayerStats from "./PlayerStats";
 
 test("UI shows players stats", () => {
   document.body.innerHTML = `
-  <div id="player-stats">
-    <span id="player-health"></span>
-    <span id="player-attack"></span>
+  <div id='player-stats'>
+    <span id='player-health'></span>
+    <span id='player-attack'></span>
   </div>
   `;
 

@@ -1,4 +1,4 @@
-import { CellTypes } from './Canvas';
+import { CellTypes } from './Cell';
 export type Coordinate = { x: number; y: number };
 
 

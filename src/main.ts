@@ -3,35 +3,39 @@ import './game.css';
 
 import Board from './Components/Board';
 import Player from './Components/Player';
-import Canvas, { CellTypes } from './Components/Canvas';
+import Canvas from './Components/Canvas';
+import { CellTypes } from './Components/Cell';
 import Enemy from './Components/Enemy';
-import PlayerStats from './Components/PlayerStats';
 import Item from './Components/Item';
+import PlayerStats from './Components/PlayerStats';
+import { generateMap } from './Utils/Generator';
 
 const generateItems = () => {
   return [
     new Item({
-      type: CellTypes.HEALTH,
+      type: CellTypes.POTION,
       amount: 1,
       position: { x: 1, y: 1 },
     }),
     new Item({
-      type: CellTypes.HEALTH,
+      type: CellTypes.POTION,
       amount: 1,
       position: { x: 3, y: 3 },
     }),
     new Item({
-      type: CellTypes.ATTACK,
+      type: CellTypes.WEAPON,
       amount: 1,
       position: { x: 5, y: 5 },
     }),
     new Item({
-      type: CellTypes.ATTACK,
+      type: CellTypes.WEAPON,
       amount: 1,
       position: { x: 8, y: 8 },
     }),
   ];
 };
+
+
 
 const canvas = new Canvas(
   document.getElementById('dungeon-crawler') as HTMLCanvasElement
@@ -55,13 +59,17 @@ playerStats.displayStats(player);
 
 const items = generateItems();
 items.map((item: Item) => {
-  canvas.placeOnBoard(item.getPosition(), item.getType())
+  canvas.placeOnBoard(item.getPosition(), 'red')
 });
+
+const map = generateMap({length: 10, width: 10});
+console.log(map);
+
 
 const board = new Board(canvas, player, enemy, playerStats, items);
 
 canvas.drawBlankBoard();
 board.addArrowKeyListener();
-canvas.placeOnBoard(player.getPosition(), CellTypes.HERO);
-canvas.placeOnBoard(enemy.getPosition(), CellTypes.ENEMY);
+canvas.placeOnBoard(player.getPosition(), 'yellow');
+canvas.placeOnBoard(enemy.getPosition(), 'green');
 

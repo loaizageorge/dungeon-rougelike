@@ -1,4 +1,4 @@
-import Canvas, { CellTypes } from './Canvas';
+import Canvas from './Canvas';
 import { Coordinate } from './Character';
 import Enemy from './Enemy';
 import Item from './Item';
@@ -46,7 +46,7 @@ class Board {
         this.canvas.removeFromBoard(itemToPickup.getPosition());
       } else {
         this.player.setPosition(updatedCoordinate);
-        this.canvas.placeOnBoard(updatedCoordinate, CellTypes.HERO);
+        this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
         this.canvas.removeFromBoard(previousCoordinate);
       }
       this.playerStats.displayStats(this.player);

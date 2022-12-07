@@ -1,5 +1,6 @@
 import Board from './Board';
-import Canvas, { CellTypes } from './Canvas';
+import Canvas from './Canvas';
+import { CellTypes } from './Cell';
 import Enemy from './Enemy';
 import Item from './Item';
 import Player from './Player';
@@ -21,7 +22,7 @@ export const testSetup = (): Board => {
 
   const items = [
     new Item({
-      type: CellTypes.HEALTH,
+      type: CellTypes.POTION,
       amount: 1,
       position: { x: 1, y: 1 },
     }),

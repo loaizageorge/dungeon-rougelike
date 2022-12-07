@@ -7,6 +7,10 @@ export default {
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
+
   testEnvironment: 'jsdom',
-  setupFiles: ['jest-canvas-mock']
+  setupFiles: ['jest-canvas-mock'],
+  moduleNameMapper: {
+    '\\.(css|less)$': 'identity-obj-proxy',
+  },
 }

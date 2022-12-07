@@ -1,4 +1,4 @@
-import { CellTypes } from './Canvas';
+import { CellTypes } from './Cell';
 import { Coordinate } from './Character';
 
 interface ItemProps {
