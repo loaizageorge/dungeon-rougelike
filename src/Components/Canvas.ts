@@ -57,6 +57,7 @@ export default class Canvas {
     context.fillStyle = color
     context.strokeStyle = 'black';
     context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
+    context.strokeRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
   }
 
   removeFromBoard(position: Coordinate): void {

@@ -83,7 +83,7 @@ class Character extends Cell{
   }
   
   // Status
-  dead(): boolean {
+  isDead(): boolean {
     return this.getHP() <= 0;
   }
 
@@ -94,11 +94,16 @@ class Character extends Cell{
   }
 
   dealDamange(enemy: Character): void {
-    if (enemy.getAttack() > this.getHP()) {
-      this.changeHP(0);
-    } else {
-      this.changeHP(enemy.getAttack() * -1);
-    }
+    console.log(this);
+    console.log(enemy);
+    
+    this.changeHP(enemy.getAttack() * -1);
+        
+    // if (enemy.getAttack() >= this.getHP()) {
+    //   this.changeHP(0);
+    // } else {
+    //   this.changeHP(enemy.getAttack() * -1);
+    // }
   }
 
   

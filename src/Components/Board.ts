@@ -19,6 +19,7 @@ class Board {
   canvas: Canvas;
   playerStats: PlayerStats;
   gameMap: GameMap;
+  gameOver: boolean;
 
 
   constructor({ canvas, player, playerStats, gameMap }: BoardProps) {
@@ -26,6 +27,7 @@ class Board {
     this.canvas = canvas;
     this.playerStats = playerStats;
     this.gameMap = gameMap;
+    this.gameOver = false;
   }
 
   handleKeyPress = (e: { keyCode: number }): void => {
@@ -41,10 +43,27 @@ class Board {
 
     if (updatedCoordinate && this.moveInBounds(updatedCoordinate)) {
       const cell = this.gameMap.getCell(updatedCoordinate);
-      console.log(cell);
       
       if (cell instanceof Character) {
         this.player.battle(cell);
+        console.log(cell.getHP());
+        
+
+        if (this.player.isDead()) {
+          this.gameOver = true;
+        } else if (cell.isDead()) {
+          // remove enemy from map and board
+          this.gameMap.remove(cell.getPosition());
+          this.canvas.removeFromBoard(cell.getPosition());
+
+          // update the players position on map
+          this.player.setPosition(updatedCoordinate);
+          this.gameMap.update(cell, updatedCoordinate, previousCoordinate);
+
+          // update the players position on the board
+          this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
+          this.canvas.removeFromBoard(previousCoordinate);
+        }
       } else if (cell instanceof Item ) {
         // apply item buffs to player
         this.player.pickUp(cell);
