@@ -1,41 +1,24 @@
-import { CellTypes } from './Cell';
+import Cell, { CellTypes } from './Cell';
 import { Coordinate } from './Character';
 
 interface ItemProps {
   type: CellTypes,
   amount: number,
-  position: Coordinate
+  position: Coordinate;
 };
 
-class Item {
-  type: CellTypes;
+class Item extends Cell {
+  declare type: CellTypes;
   amount: number;
-  position: Coordinate;
+  declare position: Coordinate;
 
-  constructor({type, amount, position}: ItemProps) {
-    this.type = type;
+  constructor({amount, position, type}: ItemProps) {
+    super({position, type});
     this.amount = amount;
-    this.position = position;
-  }
-
-  getType(): CellTypes {
-    return this.type;
   }
 
   getAmount() {
     return this.amount;
-  }
-
-  getPosition() {
-    return this.position;
-  }
-
-  getXCoord(): number {
-    return this.position.x;
-  }
-
-  getYCoord(): number {
-    return this.position.y;
   }
 }
 

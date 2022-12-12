@@ -32,6 +32,22 @@ export default class Canvas {
     }
   }
 
+  // drawBoard(board: Cell[][]) {
+  //   const context = this.canvas.getContext('2d');
+  //   if (!context) {
+  //     throw Error('Canvas not defined');
+  //   }
+
+  //   context.strokeStyle = 'black';
+  //   board.map((row, xIdx) => {
+  //     row.map((cell, yIdx) => {
+  //       let xPos = xIdx * BOX_SIZE;
+  //       let yPos = yIdx * BOX_SIZE;
+  //       context.strokeRect(xPos, yPos, BOX_SIZE, BOX_SIZE);
+  //     })
+  //   });
+  // }
+
   placeOnBoard(position: Coordinate, color: string): void {
     const context = this.canvas.getContext('2d');
     if (!context) {

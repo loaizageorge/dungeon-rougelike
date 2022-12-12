@@ -46,6 +46,14 @@ class Cell {
     return this.position;
   }
 
+  getXCoord(): number {
+    return this.position.x;
+  }
+
+  getYCoord(): number {
+    return this.position.y;
+  }
+
   getType(): CellTypes {
     return this.type;
   }

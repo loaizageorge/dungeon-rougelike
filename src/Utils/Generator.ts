@@ -1,6 +1,6 @@
 import Cell, { CellTypes } from "../Components/Cell";
 
-export const generateMap = ({length, width}: {length: number, width: number}): Cell[][] => {
+export const generateBoard = ({length, width}: {length: number, width: number}): Cell[][] => {
   let map = [];
   let i = 0;
   while (i < length) {
@@ -17,4 +17,16 @@ export const generateMap = ({length, width}: {length: number, width: number}): C
     i++;
   }
   return map;
+}
+
+export const placeOnBoard = (board: Cell[][], cell: Cell): Cell[][] => {
+  const updatedBoard = Array.from(board);
+  updatedBoard[cell.getXCoord()][cell.getYCoord()] = cell;
+  return updatedBoard;
+}
+
+export const removeFromBoard = (board: Cell[][], cell: Cell): Cell[][] => {
+  const updatedBoard = Array.from(board);
+  updatedBoard[cell.getXCoord()][cell.getYCoord()] = new Cell({type: CellTypes.EMPTY, position: {x: cell.getXCoord(), y: cell.getYCoord()}});
+  return updatedBoard;
 }

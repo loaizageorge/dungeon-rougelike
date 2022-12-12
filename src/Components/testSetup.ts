@@ -1,36 +1,32 @@
+import { generateBoard } from '../Utils/Generator';
 import Board from './Board';
 import Canvas from './Canvas';
 import { CellTypes } from './Cell';
 import Enemy from './Enemy';
-import Item from './Item';
+import GameMap from './GameMap';
 import Player from './Player';
 import PlayerStats from './PlayerStats';
 
-export const testSetup = (): Board => {
-  const player = new Player({
-    position: { x: 0, y: 0 },
-    health: 10,
-    attack: 1,
-    type: CellTypes.HERO,
-  });
-  const enemy = new Enemy({
-    position: { x: 1, y: 1 },
-    health: 10,
-    attack: 1,
-    type: CellTypes.ENEMY,
-  });
+const defaultPlayer = new Player({
+  position: { x: 0, y: 0 },
+  health: 10,
+  attack: 1,
+  type: CellTypes.HERO,
+});
+const defaultEnemy = new Enemy({
+  position: { x: 1, y: 1 },
+  health: 10,
+  attack: 1,
+  type: CellTypes.ENEMY,
+});
+const defaultCanvas = new Canvas(document.createElement('canvas'));
+const defaultPlayerStats = new PlayerStats();
+const defaultMap = new GameMap(generateBoard({length: 10, width: 10}));
+defaultMap.place(defaultEnemy, defaultEnemy.getPosition());
 
-  const items = [
-    new Item({
-      type: CellTypes.POTION,
-      amount: 1,
-      position: { x: 1, y: 1 },
-    }),
-  ];
-  
-  const canvas = new Canvas(document.createElement('canvas'));
-  const playerStats = new PlayerStats();
-  return new Board(canvas, player, enemy, playerStats, items);
+
+export const testSetup = ({ canvas = defaultCanvas, player = defaultPlayer, playerStats = defaultPlayerStats, gameMap = defaultMap }): Board => {
+  return new Board({ canvas, player, playerStats, gameMap });
 };
 
 export const createPlayer = ({

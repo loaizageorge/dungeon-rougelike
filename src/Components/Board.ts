@@ -1,29 +1,31 @@
 import Canvas from './Canvas';
-import { Coordinate } from './Character';
+import Cell from './Cell';
+import Character, { Coordinate } from './Character';
 import Enemy from './Enemy';
+import GameMap from './GameMap';
 import Item from './Item';
 import Player from './Player';
 import PlayerStats from './PlayerStats';
 
+interface BoardProps {
+  player: Player;
+  canvas: Canvas;
+  playerStats: PlayerStats;
+  gameMap: GameMap;
+}
+
 class Board {
   player: Player;
   canvas: Canvas;
-  enemy: Enemy;
   playerStats: PlayerStats;
-  items: Item[];
+  gameMap: GameMap;
 
-  constructor(
-    canvas: Canvas,
-    player: Player,
-    enemy: Enemy,
-    playerStats: PlayerStats,
-    items: Item[]
-  ) {
+
+  constructor({ canvas, player, playerStats, gameMap }: BoardProps) {
     this.player = player;
     this.canvas = canvas;
-    this.enemy = enemy;
     this.playerStats = playerStats;
-    this.items = items;
+    this.gameMap = gameMap;
   }
 
   handleKeyPress = (e: { keyCode: number }): void => {
@@ -38,13 +40,26 @@ class Board {
      */
 
     if (updatedCoordinate && this.moveInBounds(updatedCoordinate)) {
-      const itemToPickup = this.itemPickUp(updatedCoordinate, this.items);
-      if (this.enemyEncounter(updatedCoordinate, this.enemy)) {
-        this.player.battle(this.enemy);
-      } else if (itemToPickup) {
-        this.player.pickUp(itemToPickup);
-        this.canvas.removeFromBoard(itemToPickup.getPosition());
+      const cell = this.gameMap.getCell(updatedCoordinate);
+      console.log(cell);
+      
+      if (cell instanceof Character) {
+        this.player.battle(cell);
+      } else if (cell instanceof Item ) {
+        // apply item buffs to player
+        this.player.pickUp(cell);
+
+        // remove item from the board and the game
+        this.gameMap.remove(cell.getPosition());
+        this.canvas.removeFromBoard(cell.getPosition());
+
+        // move the player to the spot where the item was
+        this.player.setPosition(updatedCoordinate);
+        this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
+        this.canvas.removeFromBoard(previousCoordinate);
       } else {
+        // no interactions, move the player to the empty square
+        this.gameMap.update(cell, updatedCoordinate, previousCoordinate);
         this.player.setPosition(updatedCoordinate);
         this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
         this.canvas.removeFromBoard(previousCoordinate);
@@ -61,6 +76,10 @@ class Board {
     );
   }
 
+  landOnSquare(position: Coordinate, board: Cell[][]): Cell {
+    return board[position.x][position.y];
+  }
+
   itemPickUp(playerPosition: Coordinate, items: Item[]): Item | undefined {
     return items.find((item: Item) => {
       const x = item.getXCoord();
@@ -69,7 +88,7 @@ class Board {
         return item;
       }
       return undefined;
-    })
+    });
   }
 
   enemyEncounter(playerPosition: Coordinate, enemy: Enemy): boolean {

@@ -1,7 +1,7 @@
 import {testSetup} from './testSetup';
 
 test("Player cannot move out of bounds", () => {
-  const board = testSetup();
+  const board = testSetup({});
 
   // left bound
   expect(board.moveInBounds(board.player.moveLeft())).toBe(false);
@@ -19,9 +19,7 @@ test("Player cannot move out of bounds", () => {
 });
 
 test("Player can move in bounds", () => {
-  const board = testSetup();
-
-  board.enemy.setPosition({x: 0, y:1 });
+  const board = testSetup({});
   board.player.setPosition({x: 1, y: 1});
 
   expect(board.moveInBounds(board.player.moveLeft())).toBe(true);
@@ -29,3 +27,7 @@ test("Player can move in bounds", () => {
   expect(board.moveInBounds(board.player.moveRight())).toBe(true);
   expect(board.moveInBounds(board.player.moveDown())).toBe(true);
 })
+
+// test("Player can walk over items after pickup", () => {
+//   const board = testSetup({});
+// })

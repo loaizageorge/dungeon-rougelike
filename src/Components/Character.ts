@@ -1,6 +1,6 @@
-import { CellTypes } from './Cell';
-export type Coordinate = { x: number; y: number };
+import Cell, { CellTypes } from './Cell';
 
+export type Coordinate = { x: number; y: number };
 
 interface Attributes {
   position: Coordinate,
@@ -9,17 +9,16 @@ interface Attributes {
   type: CellTypes
 }
 
-class Character {
-  position: Coordinate;
+class Character extends Cell{
+  declare position: Coordinate;
+  declare type: CellTypes;
   health: number;
-  type: CellTypes;
   attack: number;
 
   constructor({position, health, attack, type}: Attributes) {
-    this.position  = position;
+    super({position, type});
     this.health = health;
     this.attack = attack;
-    this.type = type;
   }
 
   move(keyCode: number): Coordinate | false {
@@ -59,24 +58,6 @@ class Character {
   }
 
   /* GETTERS & SETTERS */
-
-  // Position
-  getPosition(): Coordinate {
-    return this.position;
-  }
-
-  setPosition(position: Coordinate): void {
-    this.position = position;
-  }
-
-  
-  getXCoord(): number {
-    return this.position.x;
-  }
-
-  getYCoord(): number {
-    return this.position.y;
-  }
 
   // attack
   getAttack(): number {

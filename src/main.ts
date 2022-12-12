@@ -8,7 +8,8 @@ import { CellTypes } from './Components/Cell';
 import Enemy from './Components/Enemy';
 import Item from './Components/Item';
 import PlayerStats from './Components/PlayerStats';
-import { generateMap } from './Utils/Generator';
+import { generateBoard, placeOnBoard } from './Utils/Generator';
+import GameMap from './Components/GameMap';
 
 const generateItems = () => {
   return [
@@ -35,8 +36,6 @@ const generateItems = () => {
   ];
 };
 
-
-
 const canvas = new Canvas(
   document.getElementById('dungeon-crawler') as HTMLCanvasElement
 );
@@ -57,16 +56,20 @@ const enemy = new Enemy({
 const playerStats = new PlayerStats();
 playerStats.displayStats(player);
 
+// setup items and enemies
+let map = generateBoard({length: 10, width: 10});
 const items = generateItems();
 items.map((item: Item) => {
-  canvas.placeOnBoard(item.getPosition(), 'red')
+  map = placeOnBoard(map, item);
+  canvas.placeOnBoard(item.getPosition(), item.getColor());
 });
 
-const map = generateMap({length: 10, width: 10});
-console.log(map);
+map = placeOnBoard(map, player);
+map = placeOnBoard(map, enemy);
 
+const gameMap = new GameMap(map);
 
-const board = new Board(canvas, player, enemy, playerStats, items);
+const board = new Board({ canvas, player, playerStats, gameMap });
 
 canvas.drawBlankBoard();
 board.addArrowKeyListener();
