@@ -48,9 +48,11 @@ class Board {
         this.player.battle(cell);
         console.log(cell.getHP());
         
-
+        // GAME OVER
         if (this.player.isDead()) {
           this.gameOver = true;
+
+        // ENEMY DEFEAT
         } else if (cell.isDead()) {
           // remove enemy from map and board
           this.gameMap.remove(cell.getPosition());
@@ -64,6 +66,7 @@ class Board {
           this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
           this.canvas.removeFromBoard(previousCoordinate);
         }
+      // PICK UP HEALTH / WEAPON  
       } else if (cell instanceof Item ) {
         // apply item buffs to player
         this.player.pickUp(cell);

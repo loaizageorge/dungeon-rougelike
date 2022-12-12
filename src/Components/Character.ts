@@ -93,20 +93,14 @@ class Character extends Cell{
     enemy.dealDamange(this);
   }
 
-  dealDamange(enemy: Character): void {
-    console.log(this);
-    console.log(enemy);
-    
+  dealDamange(enemy: Character): void { 
     this.changeHP(enemy.getAttack() * -1);
-        
     // if (enemy.getAttack() >= this.getHP()) {
     //   this.changeHP(0);
     // } else {
     //   this.changeHP(enemy.getAttack() * -1);
     // }
   }
-
-  
 }
 
 export default Character;

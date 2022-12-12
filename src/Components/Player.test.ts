@@ -48,7 +48,7 @@ test('Player can die', () => {
   const player = createPlayer({});
   player.changeHP(-10);
   expect(player.getHP()).toBe(0);
-  expect(player.dead()).toBe(true);
+  expect(player.isDead()).toBe(true);
 });
 
 test('Player can attack enemy', () => {
