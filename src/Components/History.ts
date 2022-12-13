@@ -5,3 +5,8 @@ export function addEvent(text: string) {
   newDiv.appendChild(newContent);
   elem?.prepend(newDiv);
 }
+
+export function clearEvents(): void {
+  const elem = document.getElementById('player-history') as Element;
+  elem.innerHTML = '';
+}

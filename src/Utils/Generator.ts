@@ -1,4 +1,6 @@
 import Cell, { CellTypes } from "../Components/Cell";
+import Enemy from "../Components/Enemy";
+import Item from "../Components/Item";
 
 export const generateBoard = ({length, width}: {length: number, width: number}): Cell[][] => {
   let map = [];
@@ -30,3 +32,40 @@ export const removeFromBoard = (board: Cell[][], cell: Cell): Cell[][] => {
   updatedBoard[cell.getXCoord()][cell.getYCoord()] = new Cell({type: CellTypes.EMPTY, position: {x: cell.getXCoord(), y: cell.getYCoord()}});
   return updatedBoard;
 }
+
+
+export const generateItems = () => {
+  return [
+    new Item({
+      type: CellTypes.POTION,
+      amount: 1,
+      position: { x: 1, y: 1 },
+    }),
+    new Item({
+      type: CellTypes.POTION,
+      amount: 1,
+      position: { x: 3, y: 3 },
+    }),
+    new Item({
+      type: CellTypes.WEAPON,
+      amount: 1,
+      position: { x: 5, y: 5 },
+    }),
+    new Item({
+      type: CellTypes.WEAPON,
+      amount: 1,
+      position: { x: 8, y: 8 },
+    }),
+  ];
+};
+
+export const generateEnemies = (): Enemy[] => {
+  // create the enemy
+  const enemy = new Enemy({
+    position: { x: 9, y: 9 },
+    health: 20,
+    attack: 1,
+    type: CellTypes.ENEMY,
+  });
+  return [enemy];
+};

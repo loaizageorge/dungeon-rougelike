@@ -21,9 +21,9 @@ export default class GameMap {
   }
 
 
-  update(cell: Cell, newPosition: Coordinate, prevPosition: Coordinate): void {
-    this.place(cell, newPosition);
-    this.remove(prevPosition);
+  update(cell: Cell, prevPos: Coordinate, newPos: Coordinate): void {
+    this.place(cell, newPos);
+    this.remove(prevPos);
   }
 
   // use update so we can keep the map and the UI in sync

@@ -1,79 +1,97 @@
 import './style.css';
 import './game.css';
-
 import Board from './Components/Board';
 import Player from './Components/Player';
 import Canvas from './Components/Canvas';
 import { CellTypes } from './Components/Cell';
-import Enemy from './Components/Enemy';
 import Item from './Components/Item';
 import PlayerStats from './Components/PlayerStats';
-import { generateBoard, placeOnBoard } from './Utils/Generator';
+import { generateBoard, generateEnemies, generateItems, placeOnBoard } from './Utils/Generator';
 import GameMap from './Components/GameMap';
-import { addEvent } from './Components/History';
-
-const generateItems = () => {
-  return [
-    new Item({
-      type: CellTypes.POTION,
-      amount: 1,
-      position: { x: 1, y: 1 },
-    }),
-    new Item({
-      type: CellTypes.POTION,
-      amount: 1,
-      position: { x: 3, y: 3 },
-    }),
-    new Item({
-      type: CellTypes.WEAPON,
-      amount: 1,
-      position: { x: 5, y: 5 },
-    }),
-    new Item({
-      type: CellTypes.WEAPON,
-      amount: 1,
-      position: { x: 8, y: 8 },
-    }),
-  ];
-};
+import { clearEvents } from './Components/History';
+import Character from './Components/Character';
 
 const canvas = new Canvas(
   document.getElementById('dungeon-crawler') as HTMLCanvasElement
 );
-const player = new Player({
-  position: { x: 0, y: 2 },
-  health: 10,
-  attack: 1,
-  type: CellTypes.HERO,
-});
 
-const enemy = new Enemy({
-  position: { x: 9, y: 9 },
-  health: 20,
-  attack: 1,
-  type: CellTypes.ENEMY,
-});
+function setupGame() {
+  // create the player
+  const player = reviveHero();
 
-const playerStats = new PlayerStats();
-playerStats.displayStats(player);
+  const gameMap = initGameMap();
+
+  // place the player on the board
+  gameMap.place(player, player.getPosition());
+  canvas.placeOnBoard(player.getPosition(), 'yellow');
+
+  // show the player stats
+  const playerStats = new PlayerStats();
+  playerStats.displayStats(player);
+
+  const board = new Board({ canvas, player, playerStats, gameMap });
+  board.addArrowKeyListener();
+  return board;
+}
+
+function addResetGameListener(board: Board) {
+  document.getElementById('reset-game')?.addEventListener('click', function () {
+    const player = reviveHero();
+    const gameMap = initGameMap();
+
+    // place the player on the board
+    gameMap.place(player, player.getPosition());
+    canvas.placeOnBoard(player.getPosition(), 'yellow');
+
+    // refresh the player and the gamemap
+    board.player = player;
+    board.gameMap = gameMap;
+    if (board.gameOver) {
+      board.addArrowKeyListener();
+    }
+    board.gameOver = false;
+  });
+}
+
+/**
+ * Fresh slate, return a gamemap populated with items and enemies
+ */
+function initGameMap(): GameMap {
+  canvas.drawBlankBoard();
+  let map = generateBoard({ length: 10, width: 10 });
+
+  // generate items and enemies
+  // and draw them on the board
+  const items = generateItems();
+  const enemies = generateEnemies();
+  items.map((item: Item) => {
+    map = placeOnBoard(map, item);
+    canvas.placeOnBoard(item.getPosition(), item.getColor());
+  });
+
+  enemies.map((enemy: Character) => {
+    map = placeOnBoard(map, enemy);
+    canvas.placeOnBoard(enemy.getPosition(), enemy.getColor());
+  });
+
+  // wipe out the history
+  clearEvents();
+
+  // initalize the map with items and enemies
+  const gameMap = new GameMap(map);
+  return gameMap;
+}
+
+function reviveHero(): Player {
+  return new Player({
+    position: { x: 0, y: 2 },
+    health: 10,
+    attack: 1,
+    type: CellTypes.HERO,
+  });
+}
 
 // setup items and enemies
-let map = generateBoard({length: 10, width: 10});
-const items = generateItems();
-items.map((item: Item) => {
-  map = placeOnBoard(map, item);
-  canvas.placeOnBoard(item.getPosition(), item.getColor());
-});
 
-map = placeOnBoard(map, player);
-map = placeOnBoard(map, enemy);
-
-const gameMap = new GameMap(map);
-
-const board = new Board({ canvas, player, playerStats, gameMap });
-
-canvas.drawBlankBoard();
-board.addArrowKeyListener();
-canvas.placeOnBoard(player.getPosition(), 'yellow');
-canvas.placeOnBoard(enemy.getPosition(), 'green');
-
+const board = setupGame();
+addResetGameListener(board);

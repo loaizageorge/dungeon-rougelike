@@ -1,3 +1,4 @@
+import Cell from './Cell';
 import { Coordinate } from './Character';
 
 const WIDTH = 400;
@@ -21,6 +22,8 @@ export default class Canvas {
       throw Error('Canvas not defined');
     }
 
+    context.clearRect(0, 0, WIDTH, HEIGHT);
+
     context.strokeStyle = 'black';
 
     for (let x = 0; x <= WIDTH / BOX_SIZE; x++) {
@@ -31,22 +34,6 @@ export default class Canvas {
       }
     }
   }
-
-  // drawBoard(board: Cell[][]) {
-  //   const context = this.canvas.getContext('2d');
-  //   if (!context) {
-  //     throw Error('Canvas not defined');
-  //   }
-
-  //   context.strokeStyle = 'black';
-  //   board.map((row, xIdx) => {
-  //     row.map((cell, yIdx) => {
-  //       let xPos = xIdx * BOX_SIZE;
-  //       let yPos = yIdx * BOX_SIZE;
-  //       context.strokeRect(xPos, yPos, BOX_SIZE, BOX_SIZE);
-  //     })
-  //   });
-  // }
 
   placeOnBoard(position: Coordinate, color: string): void {
     const context = this.canvas.getContext('2d');
@@ -71,5 +58,10 @@ export default class Canvas {
 
     context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
     context.strokeRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
+  }
+
+  update(cell: Cell, prevPos: Coordinate, newPos: Coordinate) {
+    this.removeFromBoard(prevPos);
+    this.placeOnBoard(newPos, cell.getColor());
   }
 }

@@ -31,52 +31,75 @@ class Board {
     this.gameOver = false;
   }
 
+  handlePlayerEnemyEncounter = (player: Player, enemy: Enemy) => {
+    addEvent(`You deal ${player.getAttack()} damage!`)
+    addEvent(`Enemy deals ${enemy.getAttack()} damage!`)
+    player.battle(enemy);
+
+    if (player.isDead()) {
+      this.handleGameOver();
+    } else if (enemy.isDead()) {
+      addEvent('You\'ve deafeated the enemy!');
+      this.handleEnemyDefeated(enemy);
+    }
+  }
+
+  movePlayer(prevPos: Coordinate, newPos: Coordinate) {
+    this.player.setPosition(newPos);
+    this.updateBoardAndMap(this.player, prevPos, newPos);
+  }
+
+  handleEnemyDefeated(enemy: Character) {
+    this.removeFromBoardAndMap(enemy.getPosition());
+  }
+
+  removeFromBoardAndMap(position: Coordinate) {
+    this.gameMap.remove(position);
+    this.canvas.removeFromBoard(position);
+  }
+
+  // update does a move and place on both the board and the map
+  updateBoardAndMap(cell: Cell, prevPos: Coordinate, newPos: Coordinate) {
+    this.canvas.update(cell, prevPos, newPos);
+    this.gameMap.update(cell, prevPos, newPos);
+  }
+
+  handleGameOver() {
+    addEvent('Your wounds are too serious and you cannot fight anymore. The will to live leaves your body');
+    addEvent('Game over!');
+    this.gameOver = true;
+    this.removeArrowKeyListener();
+  }
+
+  // TOOD: Simplify even further
+  // figure out how to deal with having methods implicity also require a class instance
   handleKeyPress = (e: { keyCode: number }): void => {
     const previousCoordinate = this.player.getPosition();
     const updatedCoordinate = this.player.move(e.keyCode);
+    const validMove = updatedCoordinate && this.moveInBounds(updatedCoordinate);
 
-    /**
-     * move possibilities
-     * 1. empty square -> update player move
-     * 2. enemy -> prevent move, do a damage calculation, update player and enemy HP
-     * 3. item -> update player move, remove item,
-     */
-
-    if (updatedCoordinate && this.moveInBounds(updatedCoordinate)) {
+    if (validMove) {
       const cell = this.gameMap.getCell(updatedCoordinate);
-      
+
       if (cell instanceof Character) {
         addEvent(`You deal ${this.player.getAttack()} damage!`)
         addEvent(`Enemy deals ${cell.getAttack()} damage!`)
         this.player.battle(cell);
-        console.log(cell.getHP());
         
         // GAME OVER
         if (this.player.isDead()) {
-          addEvent('Your wounds are too serious and you cannot fight anymore. The will to live leaves your body');
-          addEvent('Game over!');
-          this.gameOver = true;
-
-        // ENEMY DEFEAT
+         this.handleGameOver();
+        // remove enemy from map and board
+        // move the player onto that square
         } else if (cell.isDead()) {
-          // remove enemy from map and board
           addEvent('You\'ve deafeated the enemy!');
-          this.gameMap.remove(cell.getPosition());
-          this.canvas.removeFromBoard(cell.getPosition());
-
-          // update the players position on map
-          this.player.setPosition(updatedCoordinate);
-          this.gameMap.update(cell, updatedCoordinate, previousCoordinate);
-
-          // update the players position on the board
-          this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
-          this.canvas.removeFromBoard(previousCoordinate);
+          this.removeFromBoardAndMap(cell.getPosition());
+          this.movePlayer(previousCoordinate, updatedCoordinate);
         }
       // PICK UP HEALTH / WEAPON  
       } else if (cell instanceof Item ) {
         // apply item buffs to player
         this.player.pickUp(cell);
-
         if (cell.getType() === CellTypes.WEAPON) {
           addEvent(`You picked up some spinach! Attack increased by ${cell.getAmount()}!`);
         } else if (cell.getType() === CellTypes.POTION) {
@@ -84,19 +107,12 @@ class Board {
         }
 
         // remove item from the board and the game
-        this.gameMap.remove(cell.getPosition());
-        this.canvas.removeFromBoard(cell.getPosition());
+        this.removeFromBoardAndMap(cell.getPosition());
+        this.movePlayer(previousCoordinate, updatedCoordinate);
 
-        // move the player to the spot where the item was
-        this.player.setPosition(updatedCoordinate);
-        this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
-        this.canvas.removeFromBoard(previousCoordinate);
+      // No interactions, just move the player onto the empty square
       } else {
-        // no interactions, move the player to the empty square
-        this.gameMap.update(cell, updatedCoordinate, previousCoordinate);
-        this.player.setPosition(updatedCoordinate);
-        this.canvas.placeOnBoard(updatedCoordinate, 'yellow');
-        this.canvas.removeFromBoard(previousCoordinate);
+        this.movePlayer(previousCoordinate, updatedCoordinate);
       }
       this.playerStats.displayStats(this.player);
     }
@@ -141,8 +157,12 @@ class Board {
     return coordinate >= 0 && coordinate < 10;
   }
 
-  addArrowKeyListener(): void {
+  addArrowKeyListener():void {
     document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  removeArrowKeyListener():void {
+    document.removeEventListener('keydown', this.handleKeyPress);
   }
 }
 
