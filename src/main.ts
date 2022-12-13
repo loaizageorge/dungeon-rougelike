@@ -43,13 +43,13 @@ const canvas = new Canvas(
 const player = new Player({
   position: { x: 0, y: 2 },
   health: 10,
-  attack: 5,
+  attack: 1,
   type: CellTypes.HERO,
 });
 
 const enemy = new Enemy({
   position: { x: 9, y: 9 },
-  health: 10,
+  health: 20,
   attack: 1,
   type: CellTypes.ENEMY,
 });
@@ -76,5 +76,4 @@ canvas.drawBlankBoard();
 board.addArrowKeyListener();
 canvas.placeOnBoard(player.getPosition(), 'yellow');
 canvas.placeOnBoard(enemy.getPosition(), 'green');
-addEvent('testing');
 

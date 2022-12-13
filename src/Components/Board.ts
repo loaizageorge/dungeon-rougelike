@@ -1,8 +1,9 @@
 import Canvas from './Canvas';
-import Cell from './Cell';
+import Cell, { CellTypes } from './Cell';
 import Character, { Coordinate } from './Character';
 import Enemy from './Enemy';
 import GameMap from './GameMap';
+import { addEvent } from './History';
 import Item from './Item';
 import Player from './Player';
 import PlayerStats from './PlayerStats';
@@ -45,16 +46,21 @@ class Board {
       const cell = this.gameMap.getCell(updatedCoordinate);
       
       if (cell instanceof Character) {
+        addEvent(`You deal ${this.player.getAttack()} damage!`)
+        addEvent(`Enemy deals ${cell.getAttack()} damage!`)
         this.player.battle(cell);
         console.log(cell.getHP());
         
         // GAME OVER
         if (this.player.isDead()) {
+          addEvent('Your wounds are too serious and you cannot fight anymore. The will to live leaves your body');
+          addEvent('Game over!');
           this.gameOver = true;
 
         // ENEMY DEFEAT
         } else if (cell.isDead()) {
           // remove enemy from map and board
+          addEvent('You\'ve deafeated the enemy!');
           this.gameMap.remove(cell.getPosition());
           this.canvas.removeFromBoard(cell.getPosition());
 
@@ -70,6 +76,12 @@ class Board {
       } else if (cell instanceof Item ) {
         // apply item buffs to player
         this.player.pickUp(cell);
+
+        if (cell.getType() === CellTypes.WEAPON) {
+          addEvent(`You picked up some spinach! Attack increased by ${cell.getAmount()}!`);
+        } else if (cell.getType() === CellTypes.POTION) {
+          addEvent(`You picked up a potion! Health restored by ${cell.getAmount()}!`);
+        }
 
         // remove item from the board and the game
         this.gameMap.remove(cell.getPosition());
