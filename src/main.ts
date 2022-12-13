@@ -10,6 +10,7 @@ import Item from './Components/Item';
 import PlayerStats from './Components/PlayerStats';
 import { generateBoard, placeOnBoard } from './Utils/Generator';
 import GameMap from './Components/GameMap';
+import { addEvent } from './Components/History';
 
 const generateItems = () => {
   return [
@@ -75,4 +76,5 @@ canvas.drawBlankBoard();
 board.addArrowKeyListener();
 canvas.placeOnBoard(player.getPosition(), 'yellow');
 canvas.placeOnBoard(enemy.getPosition(), 'green');
+addEvent('testing');
 
