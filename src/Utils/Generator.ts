@@ -1,3 +1,4 @@
+import { Coordinate } from './../Components/Character';
 import Cell, { CellTypes } from "../Components/Cell";
 import Enemy from "../Components/Enemy";
 import Item from "../Components/Item";
@@ -11,8 +12,14 @@ export const generateBoard = ({length, width}: {length: number, width: number}):
     
     while (j < width) { 
       const coor = {x: i, y: j};
-      const cell = new Cell({position: coor, type: CellTypes.EMPTY});
-      row.push(cell);
+      const type = randomize();
+      if (type === 'enemy') {
+        row.push(generateRandomEnemy(coor));
+      } else if (type === 'item') {
+        row.push(generateRandomItem(coor));
+      } else {
+        row.push(new Cell({position: coor, type: CellTypes.EMPTY}));
+      }
       j++;
     }
     map.push(row);
@@ -59,13 +66,38 @@ export const generateItems = () => {
   ];
 };
 
-export const generateEnemies = (): Enemy[] => {
+export const generateRandomEnemy = (position: Coordinate): Enemy => {
   // create the enemy
   const enemy = new Enemy({
-    position: { x: 9, y: 9 },
-    health: 20,
-    attack: 1,
+    position,
+    health: Math.floor(Math.random()* 19) + 1,
+    attack: Math.floor(Math.random()* 4) + 5,
     type: CellTypes.ENEMY,
   });
-  return [enemy];
+  return enemy;
 };
+
+function generateRandomItem(position: Coordinate): Item {
+  const itemType = Math.round(Math.random());
+  const item = new Item({
+    type: itemType ? CellTypes.POTION : CellTypes.WEAPON,
+    amount: Math.floor(Math.random()* 4) + 5,
+    position
+  });
+  return item;
+}
+
+function randomize(): string {
+  // 5% chance
+  const enemyOdds = [0, 1, 2, 3, 4, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
+  // 10% chance
+  const itemOdds = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+
+  const roll = Math.floor(Math.random() * 101);
+  if (enemyOdds.includes(roll)) {
+    return 'enemy';
+  } else if (itemOdds.includes(roll)) {
+    return 'item';
+  }
+  return 'empty';
+}

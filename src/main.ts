@@ -3,13 +3,11 @@ import './game.css';
 import Board from './Components/Board';
 import Player from './Components/Player';
 import Canvas from './Components/Canvas';
-import { CellTypes } from './Components/Cell';
-import Item from './Components/Item';
+import Cell, { CellTypes } from './Components/Cell';
 import PlayerStats from './Components/PlayerStats';
-import { generateBoard, generateEnemies, generateItems, placeOnBoard } from './Utils/Generator';
+import { generateBoard, placeOnBoard } from './Utils/Generator';
 import GameMap from './Components/GameMap';
 import { clearEvents } from './Components/History';
-import Character from './Components/Character';
 
 const canvas = new Canvas(
   document.getElementById('dungeon-crawler') as HTMLCanvasElement
@@ -41,7 +39,7 @@ function addResetGameListener(board: Board) {
 
     // place the player on the board
     gameMap.place(player, player.getPosition());
-    canvas.placeOnBoard(player.getPosition(), 'yellow');
+    canvas.placeOnBoard(player.getPosition(), 'pink');
 
     // refresh the player and the gamemap
     board.player = player;
@@ -57,28 +55,18 @@ function addResetGameListener(board: Board) {
  * Fresh slate, return a gamemap populated with items and enemies
  */
 function initGameMap(): GameMap {
-  canvas.drawBlankBoard();
-  let map = generateBoard({ length: 10, width: 10 });
-
+  //canvas.drawBlankBoard();
+  let generated = generateBoard({ length: 10, width: 10 });
+  console.log(generated);
+  
+  canvas.drawFilledBoard(generated);
   // generate items and enemies
   // and draw them on the board
-  const items = generateItems();
-  const enemies = generateEnemies();
-  items.map((item: Item) => {
-    map = placeOnBoard(map, item);
-    canvas.placeOnBoard(item.getPosition(), item.getColor());
-  });
-
-  enemies.map((enemy: Character) => {
-    map = placeOnBoard(map, enemy);
-    canvas.placeOnBoard(enemy.getPosition(), enemy.getColor());
-  });
-
   // wipe out the history
   clearEvents();
 
   // initalize the map with items and enemies
-  const gameMap = new GameMap(map);
+  const gameMap = new GameMap(generated);
   return gameMap;
 }
 

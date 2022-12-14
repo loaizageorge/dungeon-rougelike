@@ -1,5 +1,6 @@
 import Cell from './Cell';
-import { Coordinate } from './Character';
+import Character, { Coordinate } from './Character';
+import Item from './Item';
 
 const WIDTH = 400;
 const HEIGHT = 400;
@@ -31,6 +32,30 @@ export default class Canvas {
         let xPos = x * BOX_SIZE;
         let yPos = y * BOX_SIZE;
         context.strokeRect(xPos, yPos, BOX_SIZE, BOX_SIZE);
+      }
+    }
+  }
+
+  drawFilledBoard(board: Cell[][]) {
+     const context = this.canvas.getContext('2d');
+    if (!context) {
+      throw Error('Canvas not defined');
+    }
+
+    context.clearRect(0, 0, WIDTH, HEIGHT);
+
+    context.strokeStyle = 'black';
+
+    for (let x = 0; x < WIDTH / BOX_SIZE; x++) {
+      for (let y = 0; y < HEIGHT / BOX_SIZE; y++) {
+        let xPos = x * BOX_SIZE;
+        let yPos = y * BOX_SIZE;
+        context.strokeRect(xPos, yPos, BOX_SIZE, BOX_SIZE);
+
+        const cell = board[x][y];
+        if (cell instanceof Character || cell instanceof Item) {
+          this.placeOnBoard({x, y}, cell.getColor());
+        }
       }
     }
   }
