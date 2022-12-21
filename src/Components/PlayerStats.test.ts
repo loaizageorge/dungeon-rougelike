@@ -14,6 +14,7 @@ test("UI shows players stats", () => {
     position: {x: 0, y: 0},
     health: 10,
     attack: 5,
+    level: 1,
     type: CellTypes.HERO
   });
   const stats = new PlayerStats();

@@ -1,3 +1,4 @@
+import { calculateDamange } from '../Utils/StatCalculator';
 import Cell, { CellTypes } from './Cell';
 
 export type Coordinate = { x: number; y: number };
@@ -6,6 +7,7 @@ interface Attributes {
   position: Coordinate,
   health: number,
   attack: number,
+  level: number,
   type: CellTypes
 }
 
@@ -14,11 +16,13 @@ class Character extends Cell{
   declare type: CellTypes;
   health: number;
   attack: number;
+  level: number;
 
-  constructor({position, health, attack, type}: Attributes) {
+  constructor({position, health, attack, level, type}: Attributes) {
     super({position, type});
     this.health = health;
     this.attack = attack;
+    this.level = level;
   }
 
   move(keyCode: number): Coordinate | false {
@@ -68,6 +72,15 @@ class Character extends Cell{
     this.attack = attack;
   }
 
+    // level
+    getLevel(): number {
+      return this.level;
+    }
+  
+    setLevel(level: number) {
+      this.level = level;
+    }
+
 
   // Health
   getHP(): number {
@@ -94,7 +107,9 @@ class Character extends Cell{
   }
 
   dealDamange(enemy: Character): void { 
-    this.changeHP(enemy.getAttack() * -1);
+    const damage = calculateDamange(enemy.getLevel(), enemy.getAttack());
+    
+    this.changeHP(damage * -1);
     // if (enemy.getAttack() >= this.getHP()) {
     //   this.changeHP(0);
     // } else {

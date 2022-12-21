@@ -7,9 +7,10 @@ const createPlayer = ({
   position = { x: 0, y: 0 },
   health = 10,
   attack = 1,
+  level = 1,
   type = CellTypes.HERO,
 }) => {
-  return new Player({ position, health, attack, type });
+  return new Player({ position, health, attack, type, level });
 };
 
 test('Player can move', () => {
@@ -56,7 +57,7 @@ test('Player can attack enemy', () => {
   const enemy = createPlayer({ type: CellTypes.ENEMY });
 
   player.battle(enemy);
-  expect(enemy.getHP()).toBe(9);
+  expect(enemy.getHP()).toBe(8);
 });
 
 test('Player can be attacked', () => {
@@ -64,5 +65,5 @@ test('Player can be attacked', () => {
   const enemy = createPlayer({ type: CellTypes.ENEMY });
 
   enemy.battle(player);
-  expect(player.getHP()).toBe(9);
+  expect(player.getHP()).toBe(8);
 });

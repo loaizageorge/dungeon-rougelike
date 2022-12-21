@@ -10,6 +10,7 @@ import PlayerStats from './PlayerStats';
 const defaultPlayer = new Player({
   position: { x: 0, y: 0 },
   health: 10,
+  level: 1,
   attack: 1,
   type: CellTypes.HERO,
 });
@@ -17,6 +18,7 @@ const defaultEnemy = new Enemy({
   position: { x: 1, y: 1 },
   health: 10,
   attack: 1,
+  level: 1,
   type: CellTypes.ENEMY,
 });
 const defaultCanvas = new Canvas(document.createElement('canvas'));
@@ -33,7 +35,8 @@ export const createPlayer = ({
   position = { x: 0, y: 0 },
   health = 10,
   attack = 1,
+  level = 1,
   type = CellTypes.HERO,
 }) => {
-  return new Player({ position, health, attack, type });
+  return new Player({ position, health, attack, type, level });
 };

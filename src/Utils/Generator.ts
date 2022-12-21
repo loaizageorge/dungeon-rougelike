@@ -2,10 +2,13 @@ import { Coordinate } from './../Components/Character';
 import Cell, { CellTypes } from "../Components/Cell";
 import Enemy from "../Components/Enemy";
 import Item from "../Components/Item";
+import { calculateHP } from './StatCalculator';
 
 export const generateBoard = ({length, width}: {length: number, width: number}): Cell[][] => {
   let map = [];
   let i = 0;
+  const MAX_ENEMY = 10;
+  let enemyAmount = 0;
   while (i < length) {
     let row = [];
     let j = 0;
@@ -13,7 +16,8 @@ export const generateBoard = ({length, width}: {length: number, width: number}):
     while (j < width) { 
       const coor = {x: i, y: j};
       const type = randomize();
-      if (type === 'enemy') {
+      if (type === 'enemy' && enemyAmount < MAX_ENEMY) {
+        enemyAmount++;
         row.push(generateRandomEnemy(coor));
       } else if (type === 'item') {
         row.push(generateRandomItem(coor));
@@ -68,10 +72,13 @@ export const generateItems = () => {
 
 export const generateRandomEnemy = (position: Coordinate): Enemy => {
   // create the enemy
+  const level = Math.round(Math.random() * (5 - 1) + 1);
+  const baseHP = 30;
   const enemy = new Enemy({
     position,
-    health: Math.floor(Math.random()* 19) + 1,
-    attack: Math.floor(Math.random()* 4) + 5,
+    health: calculateHP(level, baseHP),
+    attack: 40,
+    level,
     type: CellTypes.ENEMY,
   });
   return enemy;

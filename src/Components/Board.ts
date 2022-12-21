@@ -1,3 +1,4 @@
+import { calculateDamange } from '../Utils/StatCalculator';
 import Canvas from './Canvas';
 import Cell, { CellTypes } from './Cell';
 import Character, { Coordinate } from './Character';
@@ -29,19 +30,6 @@ class Board {
     this.playerStats = playerStats;
     this.gameMap = gameMap;
     this.gameOver = false;
-  }
-
-  handlePlayerEnemyEncounter = (player: Player, enemy: Enemy) => {
-    addEvent(`You deal ${player.getAttack()} damage!`)
-    addEvent(`Enemy deals ${enemy.getAttack()} damage!`)
-    player.battle(enemy);
-
-    if (player.isDead()) {
-      this.handleGameOver();
-    } else if (enemy.isDead()) {
-      addEvent('You\'ve deafeated the enemy!');
-      this.handleEnemyDefeated(enemy);
-    }
   }
 
   movePlayer(prevPos: Coordinate, newPos: Coordinate) {
@@ -82,9 +70,12 @@ class Board {
       const cell = this.gameMap.getCell(updatedCoordinate);
 
       if (cell instanceof Character) {
-        addEvent(`You deal ${this.player.getAttack()} damage!`)
-        addEvent(`Enemy deals ${cell.getAttack()} damage!`)
-        this.player.battle(cell);
+        const playerDamageDealt = calculateDamange(this.player.getLevel(), this.player.getAttack());
+        const enemyDamangeDealt = calculateDamange(cell.getLevel(), cell.getAttack());
+        addEvent(`You deal ${playerDamageDealt} damage!`)
+        addEvent(`Enemy deals ${enemyDamangeDealt} damage!`)
+        this.player.changeHP(-enemyDamangeDealt)
+        cell.changeHP(-playerDamageDealt)
         
         // GAME OVER
         if (this.player.isDead()) {

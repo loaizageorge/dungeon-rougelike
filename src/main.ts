@@ -3,11 +3,12 @@ import './game.css';
 import Board from './Components/Board';
 import Player from './Components/Player';
 import Canvas from './Components/Canvas';
-import Cell, { CellTypes } from './Components/Cell';
+import { CellTypes } from './Components/Cell';
 import PlayerStats from './Components/PlayerStats';
-import { generateBoard, placeOnBoard } from './Utils/Generator';
+import { generateBoard } from './Utils/Generator';
 import GameMap from './Components/GameMap';
 import { clearEvents } from './Components/History';
+import { calculateHP } from './Utils/StatCalculator';
 
 const canvas = new Canvas(
   document.getElementById('dungeon-crawler') as HTMLCanvasElement
@@ -57,7 +58,6 @@ function addResetGameListener(board: Board) {
 function initGameMap(): GameMap {
   //canvas.drawBlankBoard();
   let generated = generateBoard({ length: 10, width: 10 });
-  console.log(generated);
   
   canvas.drawFilledBoard(generated);
   // generate items and enemies
@@ -71,10 +71,12 @@ function initGameMap(): GameMap {
 }
 
 function reviveHero(): Player {
+  const level = 5;
   return new Player({
+    level,
     position: { x: 0, y: 2 },
-    health: 10,
-    attack: 1,
+    health: calculateHP(level, 35),
+    attack: 40,
     type: CellTypes.HERO,
   });
 }
