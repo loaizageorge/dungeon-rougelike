@@ -1,5 +1,4 @@
-import { CellTypes } from "./Cell";
-import Player from "./Player";
+import { createPlayer } from './testSetup';
 import PlayerStats from "./PlayerStats";
 
 test("UI shows players stats", () => {
@@ -10,13 +9,7 @@ test("UI shows players stats", () => {
   </div>
   `;
 
-  const player = new Player({
-    position: {x: 0, y: 0},
-    health: 10,
-    attack: 5,
-    level: 1,
-    type: CellTypes.HERO
-  });
+  const player = createPlayer({attack: 5});
   const stats = new PlayerStats();
   stats.displayStats(player);
   expect(document.getElementById('player-health')?.innerHTML).toBe('HP: 10');

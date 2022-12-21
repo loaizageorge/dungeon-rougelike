@@ -1,4 +1,4 @@
-import { calculateDamange } from '../Utils/StatCalculator';
+import { calculateDamage } from '../Utils/StatCalculator';
 import Canvas from './Canvas';
 import Cell, { CellTypes } from './Cell';
 import Character, { Coordinate } from './Character';
@@ -70,11 +70,11 @@ class Board {
       const cell = this.gameMap.getCell(updatedCoordinate);
 
       if (cell instanceof Character) {
-        const playerDamageDealt = calculateDamange(this.player.getLevel(), this.player.getAttack());
-        const enemyDamangeDealt = calculateDamange(cell.getLevel(), cell.getAttack());
+        const playerDamageDealt = calculateDamage(this.player.getLevel(), this.player.getAttack());
+        const enemyDamageDealt = calculateDamage(cell.getLevel(), cell.getAttack());
         addEvent(`You deal ${playerDamageDealt} damage!`)
-        addEvent(`Enemy deals ${enemyDamangeDealt} damage!`)
-        this.player.changeHP(-enemyDamangeDealt)
+        addEvent(`Enemy deals ${enemyDamageDealt} damage!`)
+        this.player.changeHP(-enemyDamageDealt)
         cell.changeHP(-playerDamageDealt)
         
         // GAME OVER

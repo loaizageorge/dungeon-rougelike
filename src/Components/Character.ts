@@ -1,28 +1,38 @@
-import { calculateDamange } from '../Utils/StatCalculator';
+import { calculateDamage } from '../Utils/StatCalculator';
 import Cell, { CellTypes } from './Cell';
 
 export type Coordinate = { x: number; y: number };
 
 interface Attributes {
-  position: Coordinate,
-  health: number,
-  attack: number,
-  level: number,
-  type: CellTypes
+  position: Coordinate;
+  health: number;
+  attack: number;
+  level: number;
+  experience: number;
+  type: CellTypes;
 }
 
-class Character extends Cell{
+class Character extends Cell {
   declare position: Coordinate;
   declare type: CellTypes;
   health: number;
   attack: number;
   level: number;
+  experience: number;
 
-  constructor({position, health, attack, level, type}: Attributes) {
-    super({position, type});
+  constructor({
+    position,
+    health,
+    attack,
+    level,
+    type,
+    experience,
+  }: Attributes) {
+    super({ position, type });
     this.health = health;
     this.attack = attack;
     this.level = level;
+    this.experience = experience;
   }
 
   move(keyCode: number): Coordinate | false {
@@ -39,26 +49,26 @@ class Character extends Cell{
 
       case 40:
         return this.moveDown();
-        
+
       default:
         return false;
     }
-  };
+  }
 
   moveLeft(): Coordinate {
-    return {x: this.getXCoord() -1, y: this.getYCoord()};
+    return { x: this.getXCoord() - 1, y: this.getYCoord() };
   }
 
   moveRight(): Coordinate {
-    return  {x: this.getXCoord() + 1, y: this.getYCoord()};
+    return { x: this.getXCoord() + 1, y: this.getYCoord() };
   }
 
   moveDown(): Coordinate {
-    return {x: this.getXCoord(), y: this.getYCoord() + 1};
+    return { x: this.getXCoord(), y: this.getYCoord() + 1 };
   }
 
   moveUp(): Coordinate {
-    return {x: this.getXCoord(), y: this.getYCoord() - 1};
+    return { x: this.getXCoord(), y: this.getYCoord() - 1 };
   }
 
   /* GETTERS & SETTERS */
@@ -72,15 +82,14 @@ class Character extends Cell{
     this.attack = attack;
   }
 
-    // level
-    getLevel(): number {
-      return this.level;
-    }
-  
-    setLevel(level: number) {
-      this.level = level;
-    }
+  // level
+  getLevel(): number {
+    return this.level;
+  }
 
+  setLevel(level: number) {
+    this.level = level;
+  }
 
   // Health
   getHP(): number {
@@ -88,13 +97,21 @@ class Character extends Cell{
   }
 
   setHP(hp: number) {
-    return this.health = hp;
+    return (this.health = hp);
   }
 
   changeHP(hpModifier: number) {
     this.setHP(this.getHP() + hpModifier);
   }
-  
+
+  getExperience(): number {
+    return this.experience;
+  }
+
+  setExperience(exp: number) {
+    this.experience = exp;
+  }
+
   // Status
   isDead(): boolean {
     return this.getHP() <= 0;
@@ -102,13 +119,13 @@ class Character extends Cell{
 
   // actions
   battle(enemy: Character): void {
-    this.dealDamange(enemy);
-    enemy.dealDamange(this);
+    this.dealDamage(enemy);
+    enemy.dealDamage(this);
   }
 
-  dealDamange(enemy: Character): void { 
-    const damage = calculateDamange(enemy.getLevel(), enemy.getAttack());
-    
+  dealDamage(enemy: Character): void {
+    const damage = calculateDamage(enemy.getLevel(), enemy.getAttack());
+
     this.changeHP(damage * -1);
     // if (enemy.getAttack() >= this.getHP()) {
     //   this.changeHP(0);

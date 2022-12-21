@@ -80,6 +80,7 @@ export const generateRandomEnemy = (position: Coordinate): Enemy => {
     attack: 40,
     level,
     type: CellTypes.ENEMY,
+    experience: 45,
   });
   return enemy;
 };

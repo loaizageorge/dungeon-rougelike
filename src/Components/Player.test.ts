@@ -9,8 +9,9 @@ const createPlayer = ({
   attack = 1,
   level = 1,
   type = CellTypes.HERO,
+  experience = 45,
 }) => {
-  return new Player({ position, health, attack, type, level });
+  return new Player({ position, health, attack, type, level, experience });
 };
 
 test('Player can move', () => {

@@ -7,19 +7,25 @@ import GameMap from './GameMap';
 import Player from './Player';
 import PlayerStats from './PlayerStats';
 
-const defaultPlayer = new Player({
-  position: { x: 0, y: 0 },
-  health: 10,
-  level: 1,
-  attack: 1,
-  type: CellTypes.HERO,
-});
+export const createPlayer = ({
+  position = { x: 0, y: 0 },
+  health = 10,
+  attack = 1,
+  level = 1,
+  type = CellTypes.HERO,
+  experience = 45,
+}) => {
+  return new Player({ position, health, attack, type, level, experience });
+};
+
+const defaultPlayer = createPlayer({});
 const defaultEnemy = new Enemy({
   position: { x: 1, y: 1 },
   health: 10,
   attack: 1,
   level: 1,
   type: CellTypes.ENEMY,
+  experience: 45
 });
 const defaultCanvas = new Canvas(document.createElement('canvas'));
 const defaultPlayerStats = new PlayerStats();
@@ -31,12 +37,3 @@ export const testSetup = ({ canvas = defaultCanvas, player = defaultPlayer, play
   return new Board({ canvas, player, playerStats, gameMap });
 };
 
-export const createPlayer = ({
-  position = { x: 0, y: 0 },
-  health = 10,
-  attack = 1,
-  level = 1,
-  type = CellTypes.HERO,
-}) => {
-  return new Player({ position, health, attack, type, level });
-};

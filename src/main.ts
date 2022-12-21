@@ -78,6 +78,7 @@ function reviveHero(): Player {
     health: calculateHP(level, 35),
     attack: 40,
     type: CellTypes.HERO,
+    experience: 0
   });
 }
 

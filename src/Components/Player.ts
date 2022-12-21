@@ -3,6 +3,7 @@ import Character from './Character';
 import Item from './Item';
 
 class Player extends Character {
+  
   pickUp(item: Item) {
     switch (item.getType()) {
       case CellTypes.WEAPON:

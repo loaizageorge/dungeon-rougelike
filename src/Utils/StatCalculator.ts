@@ -2,7 +2,7 @@
  * https://bulbapedia.bulbagarden.net/wiki/Damage
  * Using Gen 1 to keep it simple
  */
-export function calculateDamange(lvl: number, base: number) {
+export function calculateDamage(lvl: number, base: number) {
   const calc = ((((2 * lvl) / 5 + 2) * base) / 50 + 2) * calculateRandom();
   return Math.round(calc);
 }
