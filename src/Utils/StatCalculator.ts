@@ -7,17 +7,15 @@ export function calculateDamage(lvl: number, base: number) {
   return Math.round(calc);
 }
 
+// introduces a small range (1-2) to the damage calculation
 export function calculateRandom() {
   return (Math.random() * (255 - 217) + 217) / 255;
 }
 
 /**
- * Attack and HP at a given level
+ * HP at a given level
  * https://www.gamerguides.com/pokemon-lets-go-pikachu-and-lets-go-eevee/guide/advanced-trainer-info/understanding-stats/how-to-calculate-stats
  */
-// export function calculateAttack(lvl: number, base: number) {
-//   return (2 * base * lvl) / 100 + 5;
-// }
 
 export function calculateHP(lvl: number, base: number) {
   return Math.round((2 * base * lvl) / 100 + lvl + 10);
@@ -33,8 +31,10 @@ export function calculateExpNeeded(level: number) {
 
 /**
  * This is super simplified
+ * Bump up modifier to make the EXP gain faster
  * https://bulbapedia.bulbagarden.net/wiki/Experience#Experience_at_each_level
  */
 export function calculateExpGiven(level: number) {
-  return (45 * level) / 7;
+  const modifier = 90;
+  return Math.round((modifier * level) / 7);
 }

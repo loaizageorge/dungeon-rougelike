@@ -75,7 +75,7 @@ function reviveHero(): Player {
   return new Player({
     level,
     position: { x: 0, y: 2 },
-    health: calculateHP(level, 35),
+    health: calculateHP(level, 50),
     attack: 40,
     type: CellTypes.HERO,
     experience: 0

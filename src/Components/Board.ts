@@ -59,6 +59,25 @@ class Board {
     this.removeArrowKeyListener();
   }
 
+  handleBattle(enemy: Enemy) {
+    const playerDamageDealt = calculateDamage(this.player.getLevel(), this.player.getAttack());
+    const enemyDamageDealt = calculateDamage(enemy.getLevel(), enemy.getAttack());
+    addEvent(`You deal ${playerDamageDealt} damage!`)
+    addEvent(`Enemy deals ${enemyDamageDealt} damage!`)
+    this.player.changeHP(-enemyDamageDealt)
+    enemy.changeHP(-playerDamageDealt)
+  }
+
+  handleExpGain(enemy: Enemy) {
+    addEvent(`Gained ${enemy.getExpGiven()} exp!`);
+    this.player.setExperience(this.player.getExperience() + enemy.getExpGiven())
+    const leveledUp = this.player.getExperience() > this.player.getExpNeeded();
+    if (leveledUp) {
+      this.player.levelUp();
+      addEvent(`You are now level ${this.player.getLevel()}!`)
+    }
+  } 
+
   // TOOD: Simplify even further
   // figure out how to deal with having methods implicity also require a class instance
   handleKeyPress = (e: { keyCode: number }): void => {
@@ -69,35 +88,28 @@ class Board {
     if (validMove) {
       const cell = this.gameMap.getCell(updatedCoordinate);
 
-      if (cell instanceof Character) {
-        const playerDamageDealt = calculateDamage(this.player.getLevel(), this.player.getAttack());
-        const enemyDamageDealt = calculateDamage(cell.getLevel(), cell.getAttack());
-        addEvent(`You deal ${playerDamageDealt} damage!`)
-        addEvent(`Enemy deals ${enemyDamageDealt} damage!`)
-        this.player.changeHP(-enemyDamageDealt)
-        cell.changeHP(-playerDamageDealt)
+      if (cell instanceof Enemy) {
+        this.handleBattle(cell);
         
         // GAME OVER
         if (this.player.isDead()) {
          this.handleGameOver();
         // remove enemy from map and board
         // move the player onto that square
-        } else if (cell.isDead()) {
-          addEvent('You\'ve deafeated the enemy!');
+        } else if (cell.isDead()) {          
+          this.handleExpGain(cell);
           this.removeFromBoardAndMap(cell.getPosition());
           this.movePlayer(previousCoordinate, updatedCoordinate);
         }
       // PICK UP HEALTH / WEAPON  
       } else if (cell instanceof Item ) {
         // apply item buffs to player
-        this.player.pickUp(cell);
         if (cell.getType() === CellTypes.WEAPON) {
           addEvent(`You picked up some spinach! Attack increased by ${cell.getAmount()}!`);
         } else if (cell.getType() === CellTypes.POTION) {
-          addEvent(`You picked up a potion! Health restored by ${cell.getAmount()}!`);
+          addEvent(`You picked up a potion! Health restored by ${cell.getAmount() - this.player.getHP()}!`);
         }
-
-        // remove item from the board and the game
+        this.player.pickUp(cell);
         this.removeFromBoardAndMap(cell.getPosition());
         this.movePlayer(previousCoordinate, updatedCoordinate);
 

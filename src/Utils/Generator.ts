@@ -73,7 +73,7 @@ export const generateItems = () => {
 export const generateRandomEnemy = (position: Coordinate): Enemy => {
   // create the enemy
   const level = Math.round(Math.random() * (5 - 1) + 1);
-  const baseHP = 30;
+  const baseHP = 5;
   const enemy = new Enemy({
     position,
     health: calculateHP(level, baseHP),
@@ -89,7 +89,7 @@ function generateRandomItem(position: Coordinate): Item {
   const itemType = Math.round(Math.random());
   const item = new Item({
     type: itemType ? CellTypes.POTION : CellTypes.WEAPON,
-    amount: Math.floor(Math.random()* 4) + 5,
+    amount: 20,//Math.floor(Math.random()* 4) + 5,
     position
   });
   return item;

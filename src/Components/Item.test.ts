@@ -12,6 +12,7 @@ test('Attack pickup increases player attack', () => {
 test('Health pickup increases player hp',() => {
   const player = createPlayer({});
   const item = new Item({type: CellTypes.POTION, amount: 5, position: {x: 0, y: 0}});
+  player.changeHP(10);
   player.pickUp(item);
-  expect(player.getHP()).toBe(15);
+  expect(player.getHP()).toBe(12);
 });
