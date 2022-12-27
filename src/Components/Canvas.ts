@@ -53,7 +53,7 @@ export default class Canvas {
         context.strokeRect(xPos, yPos, BOX_SIZE, BOX_SIZE);
 
         const cell = board[x][y];
-        if (cell instanceof Character || cell instanceof Item) {
+        if (cell instanceof Cell) {
           this.placeOnBoard({x, y}, cell.getColor());
         }
       }
@@ -68,8 +68,9 @@ export default class Canvas {
 
     context.fillStyle = color
     context.strokeStyle = 'black';
-    context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
-    context.strokeRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
+    // context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
+    // context.strokeRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
+    context.drawImage(document.getElementById(color) as HTMLImageElement, position.x * 40, position.y * 40, 40, 40)
   }
 
   removeFromBoard(position: Coordinate): void {
@@ -83,6 +84,7 @@ export default class Canvas {
 
     context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
     context.strokeRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
+    context.drawImage(document.getElementById('grass') as HTMLImageElement, position.x * 40, position.y * 40, 40, 40)
   }
 
   update(cell: Cell, prevPos: Coordinate, newPos: Coordinate) {

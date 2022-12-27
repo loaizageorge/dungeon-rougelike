@@ -61,19 +61,19 @@ class Cell {
   getColor(): string {
     switch(this.getType()) {
       case CellTypes.EMPTY:
-        return 'white';
+        return 'grass';
       case CellTypes.IMPASSABLE:
         return 'black';
       case CellTypes.HERO:
-        return 'yellow';
+        return 'pickachu';
       case CellTypes.POTION:
-        return 'red';
+        return 'potion';
       case CellTypes.WEAPON:
-        return 'gray';
+        return 'tm';
       case CellTypes.ENEMY:
-        return 'green'
+        return 'rattata'
       default:
-        return 'white';
+        return 'grass';
     }
   }
 }

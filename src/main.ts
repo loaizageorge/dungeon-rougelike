@@ -22,7 +22,7 @@ function setupGame() {
 
   // place the player on the board
   gameMap.place(player, player.getPosition());
-  canvas.placeOnBoard(player.getPosition(), 'yellow');
+  canvas.placeOnBoard(player.getPosition(), player.getColor());
 
   // show the player stats
   const playerStats = new PlayerStats();
@@ -40,7 +40,7 @@ function addResetGameListener(board: Board) {
 
     // place the player on the board
     gameMap.place(player, player.getPosition());
-    canvas.placeOnBoard(player.getPosition(), 'pink');
+    canvas.placeOnBoard(player.getPosition(), player.getColor());
 
     // refresh the player and the gamemap
     board.player = player;
