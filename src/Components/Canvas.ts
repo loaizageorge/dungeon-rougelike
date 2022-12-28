@@ -1,10 +1,9 @@
 import Cell from './Cell';
-import Character, { Coordinate } from './Character';
-import Item from './Item';
+import { Coordinate } from './Character';
 
-const WIDTH = 400;
-const HEIGHT = 400;
-const BOX_SIZE = 40;
+const WIDTH = 500;
+const HEIGHT = 500;
+const BOX_SIZE = 25;
 
 export default class Canvas {
   canvas: HTMLCanvasElement;
@@ -45,7 +44,6 @@ export default class Canvas {
     context.clearRect(0, 0, WIDTH, HEIGHT);
 
     context.strokeStyle = 'black';
-
     for (let x = 0; x < WIDTH / BOX_SIZE; x++) {
       for (let y = 0; y < HEIGHT / BOX_SIZE; y++) {
         let xPos = x * BOX_SIZE;
@@ -68,9 +66,7 @@ export default class Canvas {
 
     context.fillStyle = color
     context.strokeStyle = 'black';
-    // context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
-    // context.strokeRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
-    context.drawImage(document.getElementById(color) as HTMLImageElement, position.x * 40, position.y * 40, 40, 40)
+    context.drawImage(document.getElementById(color) as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
   }
 
   removeFromBoard(position: Coordinate): void {
@@ -82,9 +78,9 @@ export default class Canvas {
     context.fillStyle = 'white';
     context.strokeStyle = 'black';
 
-    context.fillRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
-    context.strokeRect(position.x * 40, position.y * 40, BOX_SIZE, BOX_SIZE);
-    context.drawImage(document.getElementById('grass') as HTMLImageElement, position.x * 40, position.y * 40, 40, 40)
+    context.fillRect(position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+    context.strokeRect(position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+    context.drawImage(document.getElementById('grass') as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
   }
 
   update(cell: Cell, prevPos: Coordinate, newPos: Coordinate) {

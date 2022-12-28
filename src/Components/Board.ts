@@ -81,14 +81,16 @@ class Board {
   // TOOD: Simplify even further
   // figure out how to deal with having methods implicity also require a class instance
   handleKeyPress = (e: { keyCode: number }): void => {
+    
     const previousCoordinate = this.player.getPosition();
     const updatedCoordinate = this.player.move(e.keyCode);
     const validMove = updatedCoordinate && this.moveInBounds(updatedCoordinate);
 
     if (validMove) {
       const cell = this.gameMap.getCell(updatedCoordinate);
-
-      if (cell instanceof Enemy) {
+      if (cell.getType() === CellTypes.IMPASSABLE) {
+        return;
+      } else if (cell instanceof Enemy) {
         this.handleBattle(cell);
         
         // GAME OVER
@@ -153,11 +155,11 @@ class Board {
   }
 
   inVerticalBounds(coordinate: number): boolean {
-    return coordinate >= 0 && coordinate < 10;
+    return coordinate >= 0 && coordinate < 20;
   }
 
   inHoriziontalBounds(coordinate: number): boolean {
-    return coordinate >= 0 && coordinate < 10;
+    return coordinate >= 0 && coordinate < 20;
   }
 
   addArrowKeyListener():void {

@@ -95,6 +95,15 @@ function generateRandomItem(position: Coordinate): Item {
   return item;
 }
 
+export function generatePotion(position: Coordinate): Item {
+  const item = new Item({
+    type: CellTypes.POTION,
+    amount: 20,
+    position
+  });
+  return item;
+}
+
 function randomize(): string {
   // 5% chance
   const enemyOdds = [0, 1, 2, 3, 4, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
@@ -108,4 +117,59 @@ function randomize(): string {
     return 'item';
   }
   return 'empty';
+}
+
+export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
+  const NUM_OF_TILES = 100000;
+  const dimensions = 20;
+
+  let position = seed;
+  map[position.x][position.y].setType(CellTypes.HERO);
+  let filledCells = 0;
+  while (filledCells < NUM_OF_TILES) {
+    const roll = Math.round(Math.random() * 3);
+    let updatedPosition = {...position};
+    switch (roll) {
+      case 0:
+        updatedPosition = {x: position.x + 1, y: position.y};
+        break;
+      case 1:
+        updatedPosition = {x: position.x, y: position.y + 1};
+        break;
+      case 2:
+        updatedPosition = {x: position.x - 1, y: position.y};
+        break;
+      case 3:
+        updatedPosition = {x: position.x, y: position.y - 1};
+      break;
+    }
+    if ((updatedPosition.x < 0 || updatedPosition.x >= dimensions) || (updatedPosition.y < 0 || updatedPosition.y >= dimensions)) {
+      continue;
+    }
+    filledCells++;
+    const cell = map[position.x][position.y];
+    
+    cell.setPosition(updatedPosition);
+    cell.setType(CellTypes.EMPTY);
+    position = updatedPosition;
+  }
+  map[seed.x][seed.y].setType(CellTypes.HERO);
+  return map;
+}
+
+export function generateEmptyMap(): Cell[][] {
+  const map = [];
+  const dimensions = 20;
+  let i = 0;
+  while (i < dimensions) {
+    let j = 0;
+    const row = [];
+    while(j < dimensions) {
+      row.push(new Cell({position: {x: i, y: j}, type: CellTypes.IMPASSABLE}));
+      j++;
+    }
+    i++;
+    map.push(row);
+  }
+  return map;
 }

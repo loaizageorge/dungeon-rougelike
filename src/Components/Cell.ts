@@ -58,12 +58,16 @@ class Cell {
     return this.type;
   }
 
+  setType(type: CellTypes) {
+    this.type = type;
+  }
+
   getColor(): string {
     switch(this.getType()) {
       case CellTypes.EMPTY:
         return 'grass';
       case CellTypes.IMPASSABLE:
-        return 'black';
+        return 'stone';
       case CellTypes.HERO:
         return 'pickachu';
       case CellTypes.POTION:
