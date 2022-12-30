@@ -124,7 +124,6 @@ export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
   const dimensions = 20;
 
   let position = seed;
-  map[position.x][position.y].setType(CellTypes.HERO);
   let filledCells = 0;
   while (filledCells < NUM_OF_TILES) {
     const roll = Math.round(Math.random() * 3);
@@ -147,28 +146,25 @@ export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
       continue;
     }
     filledCells++;
-    const cell = map[position.x][position.y];
-    
-    cell.setPosition(updatedPosition);
+    const cell = map[position.y][position.x];
     cell.setType(CellTypes.EMPTY);
     position = updatedPosition;
   }
-  map[seed.x][seed.y].setType(CellTypes.HERO);
   return map;
 }
 
 export function generateEmptyMap(): Cell[][] {
   const map = [];
   const dimensions = 20;
-  let i = 0;
-  while (i < dimensions) {
-    let j = 0;
+  let y = 0;
+  while (y < dimensions) {
+    let x = 0;
     const row = [];
-    while(j < dimensions) {
-      row.push(new Cell({position: {x: i, y: j}, type: CellTypes.IMPASSABLE}));
-      j++;
+    while(x < dimensions) {
+      row.push(new Cell({position: {x, y}, type: CellTypes.IMPASSABLE}));
+      x++;
     }
-    i++;
+    y++;
     map.push(row);
   }
   return map;

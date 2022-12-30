@@ -37,6 +37,7 @@ class Character extends Cell {
 
   move(keyCode: number): Coordinate | false {
     //const arrowKeys = [37, 38, 39, 40];
+    
     switch (keyCode) {
       case 37:
         return this.moveLeft();

@@ -3,7 +3,7 @@ import './game.css';
 import Board from './Components/Board';
 import Player from './Components/Player';
 import Canvas from './Components/Canvas';
-import { CellTypes } from './Components/Cell';
+import Cell, { CellTypes } from './Components/Cell';
 import PlayerStats from './Components/PlayerStats';
 import { generateEmptyMap, generatePotion, generateRandomEnemy, randomWalk } from './Utils/Generator';
 import GameMap from './Components/GameMap';
@@ -16,18 +16,20 @@ const canvas = new Canvas(
 
 function setupGame() {
   const player = reviveHero();
-  const seed =  {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
+  const seed =  {x: 10, y: 10};//{x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
   player.setPosition(seed);
 
   const emptyMap = generateEmptyMap();
+  
   let map = randomWalk(emptyMap, seed);
-
+  map[seed.y][seed.x].setType(CellTypes.HERO);
   let enemiesPlaced = 5;
   while (enemiesPlaced !== 0) {
     const random = {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
-    const cell = map[random.x][random.y];
+    const cell = map[random.y][random.x];
     if (cell.getType() === CellTypes.EMPTY) {
-      map[random.x][random.y] = generateRandomEnemy(random);
+      
+      map[random.y][random.x] = generateRandomEnemy(random);
       enemiesPlaced--;
     }
   }
@@ -35,16 +37,16 @@ function setupGame() {
   let itemsPlaced = 10;
   while (itemsPlaced !== 0) {
     const random = {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
-    const cell = map[random.x][random.y];
+    const cell = map[random.y][random.x];
     if (cell.getType() === CellTypes.EMPTY) {
-      map[random.x][random.y] = generatePotion(random);
+      map[random.y][random.x] = generatePotion(random);
       itemsPlaced--;
     }
   }
 
   const gameMap = new GameMap(map);
-  gameMap.place(player, player.getPosition());
-  canvas.placeOnBoard(player.getPosition(), player.getColor());
+
+  
   
   clearEvents();
 
@@ -55,7 +57,15 @@ function setupGame() {
 
   const board = new Board({ canvas, player, playerStats, gameMap });
   board.addArrowKeyListener();
-  canvas.drawFilledBoard(gameMap.getMap());
+  
+  const visible = gameMap.getVisibleMap(seed);
+
+  
+  visible.map((row: Cell[], y: number) => {
+    row.map((cell: Cell, x: number) => {
+      return canvas.placeOnBoard(cell.getPosition(), cell.getColor());
+    })
+  })
   return board;
 }
 
@@ -82,7 +92,6 @@ function addResetGameListener(board: Board) {
  * Fresh slate, return a gamemap populated with items and enemies
  */
 function initGameMap(): GameMap {
-  //canvas.drawBlankBoard();
   const seed =  {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
   const emptyMap = generateEmptyMap();
   let map = randomWalk(emptyMap, seed);

@@ -50,7 +50,7 @@ export default class Canvas {
         let yPos = y * BOX_SIZE;
         context.strokeRect(xPos, yPos, BOX_SIZE, BOX_SIZE);
 
-        const cell = board[x][y];
+        const cell = board[y][x];
         if (cell instanceof Cell) {
           this.placeOnBoard({x, y}, cell.getColor());
         }
@@ -74,12 +74,6 @@ export default class Canvas {
     if (!context) {
       throw Error('Canvas not defined');
     }
-
-    context.fillStyle = 'white';
-    context.strokeStyle = 'black';
-
-    context.fillRect(position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
-    context.strokeRect(position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
     context.drawImage(document.getElementById('grass') as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
   }
 

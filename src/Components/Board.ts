@@ -84,6 +84,7 @@ class Board {
     
     const previousCoordinate = this.player.getPosition();
     const updatedCoordinate = this.player.move(e.keyCode);
+    
     const validMove = updatedCoordinate && this.moveInBounds(updatedCoordinate);
 
     if (validMove) {
