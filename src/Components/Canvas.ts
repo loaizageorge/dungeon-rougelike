@@ -1,4 +1,4 @@
-import Cell from './Cell';
+import Cell, { CellTypes } from './Cell';
 import { Coordinate } from './Character';
 
 const WIDTH = 500;
@@ -64,8 +64,9 @@ export default class Canvas {
       throw Error('Canvas not defined');
     }
 
-    context.fillStyle = color
-    context.strokeStyle = 'black';
+    if (color === 'potion' || color === 'weapon') {
+      context.drawImage(document.getElementById('grass') as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
+    }
     context.drawImage(document.getElementById(color) as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
   }
 

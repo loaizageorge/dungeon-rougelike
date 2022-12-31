@@ -16,7 +16,7 @@ const canvas = new Canvas(
 
 function setupGame() {
   const player = reviveHero();
-  const seed =  {x: 10, y: 10};//{x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
+  const seed =  {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
   player.setPosition(seed);
 
   const emptyMap = generateEmptyMap();
@@ -60,10 +60,9 @@ function setupGame() {
   
   const visible = gameMap.getVisibleMap(seed);
 
-  
   visible.map((row: Cell[], y: number) => {
     row.map((cell: Cell, x: number) => {
-      return canvas.placeOnBoard(cell.getPosition(), cell.getColor());
+      return canvas.placeOnBoard({x, y}, cell.getColor());
     })
   })
   return board;

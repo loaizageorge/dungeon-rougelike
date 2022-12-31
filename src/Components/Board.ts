@@ -35,6 +35,16 @@ class Board {
   movePlayer(prevPos: Coordinate, newPos: Coordinate) {
     this.player.setPosition(newPos);
     this.updateBoardAndMap(this.player, prevPos, newPos);
+    const visible = this.gameMap.getVisibleMap(newPos);
+    
+    // TODO: move this into a method
+  this.canvas.drawBlankBoard();
+
+    visible.map((row: Cell[], y: number) => {
+      row.map((cell: Cell, x: number) => {
+        return this.canvas.placeOnBoard({x, y}, cell.getColor());
+      })
+    })
   }
 
   handleEnemyDefeated(enemy: Character) {
@@ -48,7 +58,7 @@ class Board {
 
   // update does a move and place on both the board and the map
   updateBoardAndMap(cell: Cell, prevPos: Coordinate, newPos: Coordinate) {
-    this.canvas.update(cell, prevPos, newPos);
+    //this.canvas.update(cell, prevPos, newPos);
     this.gameMap.update(cell, prevPos, newPos);
   }
 
