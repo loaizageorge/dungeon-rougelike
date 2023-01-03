@@ -1,8 +1,11 @@
-import Cell, { CellTypes } from './Cell';
+import Cell from './Cell';
 import { Coordinate } from './Character';
 
+// canvas length and width (px)
 const WIDTH = 500;
 const HEIGHT = 500;
+
+// If we made the canvas bigger or smaller, this should be adjusted as well (px)
 const BOX_SIZE = 25;
 
 export default class Canvas {

@@ -3,6 +3,12 @@ import Cell, { CellTypes } from "../Components/Cell";
 import Enemy from "../Components/Enemy";
 import Item from "../Components/Item";
 import { calculateHP } from './StatCalculator';
+import { MAX_BOUNDARY } from './constants';
+
+export const randomSeed = (): Coordinate => {
+  const accountForBase0 = MAX_BOUNDARY - 1;
+  return {x: Math.round(Math.random() * accountForBase0), y: Math.round(Math.random() * accountForBase0 )};
+}
 
 export const generateBoard = ({length, width}: {length: number, width: number}): Cell[][] => {
   let map = [];
@@ -121,7 +127,6 @@ function randomize(): string {
 
 export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
   const NUM_OF_TILES = 100000;
-  const dimensions = 20;
 
   let position = seed;
   let filledCells = 0;
@@ -142,7 +147,7 @@ export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
         updatedPosition = {x: position.x, y: position.y - 1};
       break;
     }
-    if ((updatedPosition.x < 0 || updatedPosition.x >= dimensions) || (updatedPosition.y < 0 || updatedPosition.y >= dimensions)) {
+    if ((updatedPosition.x < 0 || updatedPosition.x >= MAX_BOUNDARY) || (updatedPosition.y < 0 || updatedPosition.y >= MAX_BOUNDARY)) {
       continue;
     }
     filledCells++;
@@ -155,12 +160,11 @@ export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
 
 export function generateEmptyMap(): Cell[][] {
   const map = [];
-  const dimensions = 20;
   let y = 0;
-  while (y < dimensions) {
+  while (y < MAX_BOUNDARY) {
     let x = 0;
     const row = [];
-    while(x < dimensions) {
+    while(x < MAX_BOUNDARY) {
       row.push(new Cell({position: {x, y}, type: CellTypes.IMPASSABLE}));
       x++;
     }

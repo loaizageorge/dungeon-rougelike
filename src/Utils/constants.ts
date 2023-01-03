@@ -1,2 +1,2 @@
 // grid is 20 * 20 cells
-export const BOUNDARY = 20;
+export const MAX_BOUNDARY = 20;

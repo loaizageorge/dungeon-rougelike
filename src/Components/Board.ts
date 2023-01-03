@@ -95,7 +95,7 @@ class Board {
     const previousCoordinate = this.player.getPosition();
     const updatedCoordinate = this.player.move(e.keyCode);
     
-    const validMove = updatedCoordinate && this.moveInBounds(updatedCoordinate);
+    const validMove = updatedCoordinate && this.gameMap.isMoveInBounds(updatedCoordinate);
 
     if (validMove) {
       const cell = this.gameMap.getCell(updatedCoordinate);
@@ -134,14 +134,6 @@ class Board {
     }
   };
 
-  // TODO: vertical bound and horizonal bounds defined by canvas H*W
-  moveInBounds(coordinate: Coordinate): boolean {
-    return (
-      this.inVerticalBounds(coordinate.y) &&
-      this.inHoriziontalBounds(coordinate.x)
-    );
-  }
-
   landOnSquare(position: Coordinate, board: Cell[][]): Cell {
     return board[position.x][position.y];
   }
@@ -163,14 +155,6 @@ class Board {
       playerPosition.x == enemyPosition.x &&
       playerPosition.y === enemyPosition.y
     );
-  }
-
-  inVerticalBounds(coordinate: number): boolean {
-    return coordinate >= 0 && coordinate < 20;
-  }
-
-  inHoriziontalBounds(coordinate: number): boolean {
-    return coordinate >= 0 && coordinate < 20;
   }
 
   addArrowKeyListener():void {

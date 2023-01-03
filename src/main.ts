@@ -5,7 +5,7 @@ import Player from './Components/Player';
 import Canvas from './Components/Canvas';
 import Cell, { CellTypes } from './Components/Cell';
 import PlayerStats from './Components/PlayerStats';
-import { generateEmptyMap, generatePotion, generateRandomEnemy, randomWalk } from './Utils/Generator';
+import { generateEmptyMap, generatePotion, generateRandomEnemy, randomSeed, randomWalk } from './Utils/Generator';
 import GameMap from './Components/GameMap';
 import { clearEvents } from './Components/History';
 import { calculateHP } from './Utils/StatCalculator';
@@ -16,7 +16,7 @@ const canvas = new Canvas(
 
 function setupGame() {
   const player = reviveHero();
-  const seed =  {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
+  const seed =  randomSeed();
   player.setPosition(seed);
 
   const emptyMap = generateEmptyMap();
@@ -25,7 +25,7 @@ function setupGame() {
   map[seed.y][seed.x].setType(CellTypes.HERO);
   let enemiesPlaced = 5;
   while (enemiesPlaced !== 0) {
-    const random = {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
+    const random = randomSeed()
     const cell = map[random.y][random.x];
     if (cell.getType() === CellTypes.EMPTY) {
       
@@ -36,7 +36,7 @@ function setupGame() {
 
   let itemsPlaced = 10;
   while (itemsPlaced !== 0) {
-    const random = {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
+    const random = randomSeed();
     const cell = map[random.y][random.x];
     if (cell.getType() === CellTypes.EMPTY) {
       map[random.y][random.x] = generatePotion(random);
@@ -91,9 +91,8 @@ function addResetGameListener(board: Board) {
  * Fresh slate, return a gamemap populated with items and enemies
  */
 function initGameMap(): GameMap {
-  const seed =  {x: Math.round(Math.random() * 19), y: Math.round(Math.random() * 19 )};
   const emptyMap = generateEmptyMap();
-  let map = randomWalk(emptyMap, seed);
+  let map = randomWalk(emptyMap, randomSeed());
   
   // generate items and enemies
   // and draw them on the board

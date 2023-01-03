@@ -1,5 +1,9 @@
+import { MAX_BOUNDARY } from './../Utils/constants';
 import { Coordinate } from './Character';
 import Cell, { CellTypes } from './Cell';
+
+// our hero has a visibility of 5 squares ahead, behind, and left and right 
+const VISIBILITY = 5;
 
 export default class GameMap {
   gameMap: Cell[][];
@@ -42,16 +46,15 @@ export default class GameMap {
   getVisibleMap(coordinate: Coordinate) {
 
     // can see in 1 square radius, 9 grids (including own)
-    const visibility = 2;
     const visibleMap = [];
 
     const currentX = coordinate.x;
     const currentY = coordinate.y;
-    const rowsToGet = visibility * 2 + 1;
-    let startingRow = currentY - visibility;
-    const endingRow = currentY + visibility;
+    const rowsToGet = VISIBILITY * 2 + 1;
+    let startingRow = currentY - VISIBILITY;
+    const endingRow = currentY + VISIBILITY;
     while (startingRow <= endingRow) {
-        const row = this.getRow(startingRow, currentX - visibility, rowsToGet);
+        const row = this.getRow(startingRow, currentX - VISIBILITY, rowsToGet);
         visibleMap.push(row);
       startingRow++;
     }
@@ -62,10 +65,9 @@ export default class GameMap {
   
   getRow(rowNumber: number, colNumber: number, amount: number) {
     const maxCol = colNumber + amount;
-    const boundaries = 20;
     const row = [];
     while (colNumber < maxCol) {
-      if (colNumber >= 0 && colNumber < boundaries && rowNumber < boundaries) {
+      if (colNumber >= 0 && this.isMoveInBounds({x: colNumber, y: rowNumber})) {
         row.push(this.getCell({ x: colNumber, y: rowNumber }));
       } else {
         // If we've reached the edge of the map, fill out the FOV with impassable tiles
@@ -74,5 +76,9 @@ export default class GameMap {
       colNumber++;
     }
     return row;
+  }
+
+  isMoveInBounds({x, y}: Coordinate) {
+    return x >= 0 && y >= 0 && x < MAX_BOUNDARY && y < MAX_BOUNDARY ;
   }
 }
