@@ -14,12 +14,27 @@
       <img style="display: none;" id="grass" height="25" width="25" src="/grass.jpeg"/>
       <img style="display: none;" id="tm" height="25" width="25" src="/tm.png"/>
       <img style="display: none;" id="stone" height="25" width="25" src="/stone.png"/>
-      <canvas width="500" height="500" id="dungeon-crawler"></canvas>
-        <div id="player-stats">
-          <span id="player-level"></span>
-          <span id="player-health"></span>
-          <span id="player-experience"></span>
+      <div id="player-stats">
+        <span id="player-level"></span>
+
+        <span id="player-attack"></span>
+
+        <div class="flex-center">
+          <span id="player-health" class="stat-display"></span>
+          <div class="bar-container">
+            <div id="health-bar"></div>
+          </div>
         </div>
+        
+        <div class="flex-center">
+          <span id="player-experience" class="stat-display"></span>
+          <div class="bar-container">
+            <div id="experience-bar"></div>
+          </div>
+        </div>
+      </div>
+      <canvas width="500" height="500" id="dungeon-crawler"></canvas>
+       
       <div id="player-history">
       </div>
       <button id="reset-game" type="button">Restart Game</button>
