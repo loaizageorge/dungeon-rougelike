@@ -1,9 +1,8 @@
-import { MAX_BOUNDARY } from './../Utils/constants';
+import { MAX_BOUNDARY, VISIBILITY } from './../Utils/constants';
 import { Coordinate } from './Character';
 import Cell, { CellTypes } from './Cell';
 
 // our hero has a visibility of 5 squares ahead, behind, and left and right 
-const VISIBILITY = 5;
 
 export default class GameMap {
   gameMap: Cell[][];

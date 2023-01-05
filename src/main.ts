@@ -45,11 +45,8 @@ function setupGame() {
   }
 
   const gameMap = new GameMap(map);
-
-  
   
   clearEvents();
-
 
   // show the player stats
   const playerStats = new PlayerStats();
@@ -61,7 +58,7 @@ function setupGame() {
   const visible = gameMap.getVisibleMap(seed);
 
   visible.map((row: Cell[], y: number) => {
-    row.map((cell: Cell, x: number) => {
+    row.map((cell: Cell, x: number) => {   
       return canvas.placeOnBoard({x, y}, cell.getColor());
     })
   })

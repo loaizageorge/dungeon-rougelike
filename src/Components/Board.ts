@@ -38,7 +38,7 @@ class Board {
     const visible = this.gameMap.getVisibleMap(newPos);
     
     // TODO: move this into a method
-  this.canvas.drawBlankBoard();
+    this.canvas.drawBlankBoard();
 
     visible.map((row: Cell[], y: number) => {
       row.map((cell: Cell, x: number) => {

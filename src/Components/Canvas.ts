@@ -1,3 +1,4 @@
+import { MAX_BOUNDARY, VISIBILITY } from '../Utils/constants';
 import Cell from './Cell';
 import { Coordinate } from './Character';
 
@@ -26,16 +27,6 @@ export default class Canvas {
     }
 
     context.clearRect(0, 0, WIDTH, HEIGHT);
-
-    context.strokeStyle = 'black';
-
-    for (let x = 0; x <= WIDTH / BOX_SIZE; x++) {
-      for (let y = 0; y <= HEIGHT / BOX_SIZE; y++) {
-        let xPos = x * BOX_SIZE;
-        let yPos = y * BOX_SIZE;
-        context.strokeRect(xPos, yPos, BOX_SIZE, BOX_SIZE);
-      }
-    }
   }
 
   drawFilledBoard(board: Cell[][]) {
@@ -67,10 +58,17 @@ export default class Canvas {
       throw Error('Canvas not defined');
     }
 
+    const x = this.getMidpoint(position.x);
+    const y = this.getMidpoint(position.y);
+
     if (color === 'potion' || color === 'weapon') {
-      context.drawImage(document.getElementById('grass') as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
+      context.drawImage(document.getElementById('grass') as HTMLImageElement, x * BOX_SIZE, y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
     }
-    context.drawImage(document.getElementById(color) as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
+    context.drawImage(document.getElementById(color) as HTMLImageElement, x * BOX_SIZE, y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
+  }
+
+  getMidpoint(position: number) {
+    return position + (MAX_BOUNDARY / 2) - VISIBILITY;
   }
 
   removeFromBoard(position: Coordinate): void {
@@ -78,7 +76,9 @@ export default class Canvas {
     if (!context) {
       throw Error('Canvas not defined');
     }
-    context.drawImage(document.getElementById('grass') as HTMLImageElement, position.x * BOX_SIZE, position.y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
+    const x = this.getMidpoint(position.x);
+    const y = this.getMidpoint(position.y);
+    context.drawImage(document.getElementById('grass') as HTMLImageElement, x * BOX_SIZE, y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
   }
 
   update(cell: Cell, prevPos: Coordinate, newPos: Coordinate) {
