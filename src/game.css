@@ -19,8 +19,8 @@ body {
   display: flex;
   flex-direction: column;
   width: 500px;
-  height: 200px;
-  overflow-y: auto;
+  /* height: 200px; */
+  /* overflow-y: auto; */
 }
 
 .flex-center {

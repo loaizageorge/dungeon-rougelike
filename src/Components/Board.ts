@@ -32,6 +32,18 @@ class Board {
     this.gameOver = false;
   }
 
+  setPlayer(player: Player) {
+    this.player = player;
+  }
+
+  setGameMap(gameMap: GameMap) {
+    this.gameMap = gameMap;
+  }
+
+  setPlayerStats(playerStats: PlayerStats) {
+    this.playerStats = playerStats;
+  }
+
   movePlayer(prevPos: Coordinate, newPos: Coordinate) {
     this.player.setPosition(newPos);
     this.updateBoardAndMap(this.player, prevPos, newPos);
@@ -66,7 +78,6 @@ class Board {
     addEvent('Your wounds are too serious and you cannot fight anymore. The will to live leaves your body');
     addEvent('Game over!');
     this.gameOver = true;
-    this.removeArrowKeyListener();
   }
 
   handleBattle(enemy: Enemy) {
@@ -90,8 +101,11 @@ class Board {
 
   // TOOD: Simplify even further
   // figure out how to deal with having methods implicity also require a class instance
-  handleKeyPress = (e: { keyCode: number }): void => {
-    
+  handleKeyPress = (e: { keyCode: number }): void|false => {
+    if (this.gameOver) {
+      return false;
+    }
+     
     const previousCoordinate = this.player.getPosition();
     const updatedCoordinate = this.player.move(e.keyCode);
     
@@ -158,11 +172,12 @@ class Board {
   }
 
   addArrowKeyListener():void {
-    document.addEventListener('keydown', this.handleKeyPress);
+    document.addEventListener('keydown', (e) => this.handleKeyPress(e), true);
   }
 
   removeArrowKeyListener():void {
-    document.removeEventListener('keydown', this.handleKeyPress);
+    document.removeEventListener('keydown',(e) => this.handleKeyPress(e), true);
+    
   }
 }
 

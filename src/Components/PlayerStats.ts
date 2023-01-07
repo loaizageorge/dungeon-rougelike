@@ -17,13 +17,11 @@ export default class PlayerStats {
 
     const hpBar = document.getElementById('health-bar') as ElementCSSInlineStyle;
     const hpPercent = player.getHP() / player.getMaxHP() * 100;
-    console.log(hpPercent);
     
     hpBar.style.width = `${hpPercent}%`
     
     const expBar = document.getElementById('experience-bar') as ElementCSSInlineStyle;
     const expPercent = player.getExperience() / player.getExpNeeded() * 100;
-    console.log(expPercent);
     
     expBar.style.width = `${expPercent}%`;;
   }
