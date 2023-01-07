@@ -102,7 +102,12 @@ class Character extends Cell {
   }
 
   changeHP(hpModifier: number) {
-    this.setHP(this.getHP() + hpModifier);
+    const newHP = this.getHP() + hpModifier;
+    if (newHP < 0) {
+      this.setHP(0);
+    } else {
+      this.setHP(this.getHP() + hpModifier);
+    }
   }
 
   getExperience(): number {
