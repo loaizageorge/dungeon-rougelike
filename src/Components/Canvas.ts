@@ -61,7 +61,8 @@ export default class Canvas {
     const x = this.getMidpoint(position.x);
     const y = this.getMidpoint(position.y);
 
-    if (color === 'potion' || color === 'weapon') {
+    // since we have a transparent png, draw a grass tile and then place the image on top for a nicer look
+    if (color === 'potion' || color === 'xattack') {
       context.drawImage(document.getElementById('grass') as HTMLImageElement, x * BOX_SIZE, y * BOX_SIZE, BOX_SIZE, BOX_SIZE)
     }
     context.drawImage(document.getElementById(color) as HTMLImageElement, x * BOX_SIZE, y * BOX_SIZE, BOX_SIZE, BOX_SIZE)

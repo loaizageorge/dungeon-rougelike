@@ -121,6 +121,15 @@ export function generatePotion(position: Coordinate): Item {
   return item;
 }
 
+export function generateAttack(position: Coordinate): Item {
+  const item = new Item({
+    type: CellTypes.WEAPON,
+    amount: 20,
+    position,
+  });
+  return item;
+}
+
 function randomize(): string {
   // 5% chance
   const enemyOdds = [

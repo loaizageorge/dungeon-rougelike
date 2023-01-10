@@ -6,6 +6,7 @@ import Canvas from './Components/Canvas';
 import Cell, { CellTypes } from './Components/Cell';
 import PlayerStats from './Components/PlayerStats';
 import {
+  generateAttack,
   generateEmptyMap,
   generatePotion,
   generateRandomEnemy,
@@ -46,6 +47,17 @@ function setupGame(prevBoard: Board | false): Board {
     if (cell.getType() === CellTypes.EMPTY) {
       map[random.y][random.x] = generatePotion(random);
       itemsPlaced--;
+    }
+  }
+
+
+  let xAttacks = 10;
+  while (xAttacks !== 0) {
+    const random = randomSeed();
+    const cell = map[random.y][random.x];
+    if (cell.getType() === CellTypes.EMPTY) {
+      map[random.y][random.x] = generateAttack(random);
+      xAttacks--;
     }
   }
 

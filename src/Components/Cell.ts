@@ -73,7 +73,7 @@ class Cell {
       case CellTypes.POTION:
         return 'potion';
       case CellTypes.WEAPON:
-        return 'tm';
+        return 'xattack';
       case CellTypes.ENEMY:
         return 'rattata'
       default:

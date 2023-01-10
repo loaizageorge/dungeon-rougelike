@@ -132,7 +132,7 @@ class Board {
       } else if (cell instanceof Item ) {
         // apply item buffs to player
         if (cell.getType() === CellTypes.WEAPON) {
-          addEvent(`You picked up some spinach! Attack increased by ${cell.getAmount()}!`);
+          addEvent(`You picked up a x-attack! Attack increased by ${cell.getAmount()}!`);
         } else if (cell.getType() === CellTypes.POTION) {
           addEvent(`You picked up a potion! Health restored by ${cell.getAmount() - this.player.getHP()}!`);
         }
