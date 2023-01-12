@@ -1,13 +1,13 @@
-import { MAX_BOUNDARY, VISIBILITY } from '../Utils/constants';
-import Cell from './Cell';
-import { Coordinate } from './Character';
+import { MAX_BOUNDARY, VISIBILITY } from '../../Utils/constants';
+import Cell from '../Pieces/Cell';
+import { Coordinate } from '../Pieces/Character';
 
 // canvas length and width (px)
-const WIDTH = 500;
-const HEIGHT = 500;
+const WIDTH = 1000;
+const HEIGHT = 1000;
 
 // If we made the canvas bigger or smaller, this should be adjusted as well (px)
-const BOX_SIZE = 25;
+const BOX_SIZE = 100;
 
 export default class Canvas {
   canvas: HTMLCanvasElement;
@@ -60,6 +60,9 @@ export default class Canvas {
 
     const x = this.getMidpoint(position.x);
     const y = this.getMidpoint(position.y);
+    // const x = position.x;
+    // const y = position.y;
+
 
     // since we have a transparent png, draw a grass tile and then place the image on top for a nicer look
     if (color === 'potion' || color === 'xattack') {

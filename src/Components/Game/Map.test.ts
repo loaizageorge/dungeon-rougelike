@@ -1,7 +1,7 @@
-import { generateBoard } from '../Utils/Generator';
-import Character from './Character';
+import { generateBoard } from '../../Utils/Generator';
+import Character from '../Pieces/Character';
 import GameMap from './GameMap';
-import { createPlayer } from './testSetup';
+import { createPlayer } from '../testSetup';
 
 test('Map can take in a generated map', () => {
   const generate = generateBoard({ length: 10, width: 10 });

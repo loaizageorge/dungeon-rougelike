@@ -1,4 +1,4 @@
-import { createPlayer } from './testSetup';
+import { createPlayer } from '../testSetup';
 import PlayerStats from "./PlayerStats";
 
 test("UI shows players stats", () => {

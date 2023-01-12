@@ -1,11 +1,11 @@
 import { generateBoard } from '../Utils/Generator';
-import Board from './Board';
-import Canvas from './Canvas';
-import { CellTypes } from './Cell';
-import Enemy from './Enemy';
-import GameMap from './GameMap';
-import Player from './Player';
-import PlayerStats from './PlayerStats';
+import Board from './Game/Board';
+import Canvas from './Game/Canvas';
+import { CellTypes } from './Pieces/Cell';
+import Enemy from './Pieces/Enemy';
+import GameMap from './Game/GameMap';
+import Player from './Pieces/Player';
+import PlayerStats from './Display/PlayerStats';
 
 export const createPlayer = ({
   position = { x: 0, y: 0 },

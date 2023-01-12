@@ -1,7 +1,7 @@
-import { Coordinate } from './../Components/Character';
-import Cell, { CellTypes } from '../Components/Cell';
-import Enemy from '../Components/Enemy';
-import Item from '../Components/Item';
+import { Coordinate } from '../Components/Pieces/Character';
+import Cell, { CellTypes } from '../Components/Pieces/Cell';
+import Enemy from '../Components/Pieces/Enemy';
+import Item from '../Components/Pieces/Item';
 import { calculateHP } from './StatCalculator';
 import { MAX_BOUNDARY } from './constants';
 

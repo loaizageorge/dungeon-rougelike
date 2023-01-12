@@ -1,13 +1,13 @@
-import { calculateDamage } from '../Utils/StatCalculator';
+import { calculateDamage } from '../../Utils/StatCalculator';
 import Canvas from './Canvas';
-import Cell, { CellTypes } from './Cell';
-import Character, { Coordinate } from './Character';
-import Enemy from './Enemy';
+import Cell, { CellTypes } from '../Pieces/Cell';
+import Character, { Coordinate } from '../Pieces/Character';
+import Enemy from '../Pieces/Enemy';
 import GameMap from './GameMap';
-import { addEvent } from './History';
-import Item from './Item';
-import Player from './Player';
-import PlayerStats from './PlayerStats';
+import { addEvent } from '../Display/History';
+import Item from '../Pieces/Item';
+import Player from '../Pieces/Player';
+import PlayerStats from '../Display/PlayerStats';
 
 interface BoardProps {
   player: Player;

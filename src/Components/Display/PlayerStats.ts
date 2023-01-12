@@ -1,4 +1,4 @@
-import Player from './Player';
+import Player from '../Pieces/Player';
 
 export default class PlayerStats {
   displayStats(player: Player) {

@@ -1,4 +1,4 @@
-import { calculateExpNeeded, calculateHP } from '../Utils/StatCalculator';
+import { calculateExpNeeded, calculateHP } from '../../Utils/StatCalculator';
 import { CellTypes } from './Cell';
 import Character from './Character';
 import Item from './Item';

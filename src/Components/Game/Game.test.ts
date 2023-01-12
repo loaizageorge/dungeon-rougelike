@@ -1,5 +1,5 @@
-import { generateBoard } from '../Utils/Generator';
-import Cell from './Cell';
+import { generateBoard } from '../../Utils/Generator';
+import Cell from '../Pieces/Cell';
 
 test("Game contains items, enemies, and the hero", () => {
   const expectedCells = 100;

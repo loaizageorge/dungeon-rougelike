@@ -1,6 +1,6 @@
 import { CellTypes } from './Cell';
 import Item from './Item';
-import { createPlayer } from './testSetup';
+import { createPlayer } from '../testSetup';
 
 test('Attack pickup increases player attack', () => {
   const player = createPlayer({});

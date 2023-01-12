@@ -1,10 +1,9 @@
-import './style.css';
 import './game.css';
-import Board from './Components/Board';
-import Player from './Components/Player';
-import Canvas from './Components/Canvas';
-import Cell, { CellTypes } from './Components/Cell';
-import PlayerStats from './Components/PlayerStats';
+import Board from './Components/Game/Board';
+import Player from './Components/Pieces/Player';
+import Canvas from './Components/Game/Canvas';
+import Cell, { CellTypes } from './Components/Pieces/Cell';
+import PlayerStats from './Components/Display/PlayerStats';
 import {
   generateAttack,
   generateEmptyMap,
@@ -13,8 +12,8 @@ import {
   randomSeed,
   randomWalk,
 } from './Utils/Generator';
-import GameMap from './Components/GameMap';
-import { clearEvents } from './Components/History';
+import GameMap from './Components/Game/GameMap';
+import { clearEvents } from './Components/Display/History';
 import { calculateHP } from './Utils/StatCalculator';
 
 const canvas = new Canvas(

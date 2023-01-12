@@ -1,4 +1,4 @@
-import { calculateDamage } from '../Utils/StatCalculator';
+import { calculateDamage } from '../../Utils/StatCalculator';
 import Cell, { CellTypes } from './Cell';
 
 export type Coordinate = { x: number; y: number };
