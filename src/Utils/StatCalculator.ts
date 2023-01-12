@@ -2,6 +2,9 @@
  * https://bulbapedia.bulbagarden.net/wiki/Damage
  * Using Gen 1 to keep it simple
  */
+
+const BASE_XP_MODIFIER = 90;
+
 export function calculateDamage(lvl: number, base: number) {
   const calc = ((((2 * lvl) / 5 + 2) * base) / 50 + 2) * calculateRandom();
   return Math.round(calc);
@@ -35,6 +38,6 @@ export function calculateExpNeeded(level: number) {
  * https://bulbapedia.bulbagarden.net/wiki/Experience#Experience_at_each_level
  */
 export function calculateExpGiven(level: number) {
-  const modifier = 90;
+  const modifier = BASE_XP_MODIFIER;
   return Math.round((modifier * level) / 7);
 }

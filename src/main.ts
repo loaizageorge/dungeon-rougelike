@@ -73,7 +73,7 @@ function setupGame(prevBoard: Board | false): Board {
   const visible = gameMap.getVisibleMap(seed);
   visible.map((row: Cell[], y: number) => {
     row.map((cell: Cell, x: number) => {
-      return canvas.placeOnBoard({ x, y }, cell.getColor());
+      return canvas.placeOnBoard({ x, y }, cell.getIcon());
     });
   });
 

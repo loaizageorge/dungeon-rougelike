@@ -3,13 +3,15 @@ import { CellTypes } from './Cell';
 import Character from './Character';
 import Item from './Item';
 
+const PLAYER_BASE_HP = 50;
+
 class Player extends Character {
   getExpNeeded(): number {
     return calculateExpNeeded(this.getLevel() + 1)
   }
 
   getMaxHP(): number {
-    return calculateHP(this.getLevel(), 50)
+    return calculateHP(this.getLevel(), PLAYER_BASE_HP)
   }
 
   // increase level and also recalculate HP for new level
@@ -17,7 +19,7 @@ class Player extends Character {
     const xpNeeded = this.getExpNeeded();
     this.setLevel(this.getLevel() + 1);
     this.setExperience(this.getExperience() - xpNeeded);
-    this.setHP(calculateHP(this.getLevel(), 50));
+    this.setHP(calculateHP(this.getLevel(), PLAYER_BASE_HP));
   }
 
   pickUp(item: Item) {

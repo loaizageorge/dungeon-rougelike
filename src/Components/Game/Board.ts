@@ -1,7 +1,7 @@
 import { calculateDamage } from '../../Utils/StatCalculator';
+import { Coordinate } from '../Pieces/Character';
 import Canvas from './Canvas';
 import Cell, { CellTypes } from '../Pieces/Cell';
-import Character, { Coordinate } from '../Pieces/Character';
 import Enemy from '../Pieces/Enemy';
 import GameMap from './GameMap';
 import { addEvent } from '../Display/History';
@@ -48,21 +48,14 @@ class Board {
     this.player.setPosition(newPos);
     this.updateBoardAndMap(this.player, prevPos, newPos);
     const visible = this.gameMap.getVisibleMap(newPos);
-    
-    // TODO: move this into a method
-    this.canvas.drawBlankBoard();
 
+    this.canvas.drawBlankBoard();
     visible.map((row: Cell[], y: number) => {
       row.map((cell: Cell, x: number) => {
-        return this.canvas.placeOnBoard({x, y}, cell.getColor());
+        return this.canvas.placeOnBoard({x, y}, cell.getIcon());
       })
     })
   }
-
-  handleEnemyDefeated(enemy: Character) {
-    this.removeFromBoardAndMap(enemy.getPosition());
-  }
-
   removeFromBoardAndMap(position: Coordinate) {
     this.gameMap.remove(position);
     this.canvas.removeFromBoard(position);
@@ -75,8 +68,8 @@ class Board {
   }
 
   handleGameOver() {
-    addEvent('Your wounds are too serious and you cannot fight anymore. The will to live leaves your body');
     addEvent('Game over!');
+    addEvent('Your wounds are too serious and you cannot fight anymore. The will to live leaves your body');
     this.gameOver = true;
   }
 
@@ -100,7 +93,7 @@ class Board {
   } 
 
   // TOOD: Simplify even further
-  // figure out how to deal with having methods implicity also require a class instance
+  // figure out how to deal with having methods implicit also require a class instance
   handleKeyPress = (e: { keyCode: number }): void|false => {
     if (this.gameOver) {
       return false;
@@ -147,37 +140,8 @@ class Board {
       this.playerStats.displayStats(this.player);
     }
   };
-
-  landOnSquare(position: Coordinate, board: Cell[][]): Cell {
-    return board[position.x][position.y];
-  }
-
-  itemPickUp(playerPosition: Coordinate, items: Item[]): Item | undefined {
-    return items.find((item: Item) => {
-      const x = item.getXCoord();
-      const y = item.getYCoord();
-      if (x === playerPosition.x && y === playerPosition.y) {
-        return item;
-      }
-      return undefined;
-    });
-  }
-
-  enemyEncounter(playerPosition: Coordinate, enemy: Enemy): boolean {
-    const enemyPosition = enemy.getPosition();
-    return (
-      playerPosition.x == enemyPosition.x &&
-      playerPosition.y === enemyPosition.y
-    );
-  }
-
   addArrowKeyListener():void {
     document.addEventListener('keydown', (e) => this.handleKeyPress(e), true);
-  }
-
-  removeArrowKeyListener():void {
-    document.removeEventListener('keydown',(e) => this.handleKeyPress(e), true);
-    
   }
 }
 

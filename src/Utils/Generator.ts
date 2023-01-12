@@ -46,47 +46,6 @@ export const generateBoard = ({
   }
   return map;
 };
-
-export const placeOnBoard = (board: Cell[][], cell: Cell): Cell[][] => {
-  const updatedBoard = Array.from(board);
-  updatedBoard[cell.getXCoord()][cell.getYCoord()] = cell;
-  return updatedBoard;
-};
-
-export const removeFromBoard = (board: Cell[][], cell: Cell): Cell[][] => {
-  const updatedBoard = Array.from(board);
-  updatedBoard[cell.getXCoord()][cell.getYCoord()] = new Cell({
-    type: CellTypes.EMPTY,
-    position: { x: cell.getXCoord(), y: cell.getYCoord() },
-  });
-  return updatedBoard;
-};
-
-export const generateItems = () => {
-  return [
-    new Item({
-      type: CellTypes.POTION,
-      amount: 1,
-      position: { x: 1, y: 1 },
-    }),
-    new Item({
-      type: CellTypes.POTION,
-      amount: 1,
-      position: { x: 3, y: 3 },
-    }),
-    new Item({
-      type: CellTypes.WEAPON,
-      amount: 1,
-      position: { x: 5, y: 5 },
-    }),
-    new Item({
-      type: CellTypes.WEAPON,
-      amount: 1,
-      position: { x: 8, y: 8 },
-    }),
-  ];
-};
-
 export const generateRandomEnemy = (position: Coordinate): Enemy => {
   // create the enemy
   const level = Math.round(Math.random() * (5 - 1) + 1);

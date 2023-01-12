@@ -62,7 +62,7 @@ class Cell {
     this.type = type;
   }
 
-  getColor(): string {
+  getIcon(): string {
     switch(this.getType()) {
       case CellTypes.EMPTY:
         return 'grass';
