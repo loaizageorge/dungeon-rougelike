@@ -2,11 +2,11 @@ import { MAX_BOUNDARY, VISIBILITY } from '../../Utils/constants';
 import { Coordinate } from '../Pieces/Character';
 
 // canvas length and width (px)
-const WIDTH = 1000;
-const HEIGHT = 1000;
+const WIDTH = 500;
+const HEIGHT = 500;
 
 // If we made the canvas bigger or smaller, this should be adjusted as well (px)
-const BOX_SIZE = 100;
+const BOX_SIZE = 20;
 
 export default class Canvas {
   canvas: HTMLCanvasElement;
