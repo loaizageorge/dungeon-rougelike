@@ -16,6 +16,7 @@ import GameMap from './Components/Game/GameMap';
 import { clearEvents } from './Components/Display/History';
 import { calculateHP } from './Utils/StatCalculator';
 import Boss from './Components/Pieces/Boss';
+import { hideModal, showStartingScreen } from './Components/Display/Modal';
 
 const canvas = new Canvas(
   document.getElementById('dungeon-crawler') as HTMLCanvasElement
@@ -122,6 +123,12 @@ function reviveHero(): Player {
 }
 
 const board = setupGame(false);
+showStartingScreen();
+document.getElementById('modal-button')?.addEventListener('click', function() {
+  hideModal();
+  setupGame(board);
+});
+
 document.getElementById('reset-game')?.addEventListener('click', function () {
   setupGame(board);
 });

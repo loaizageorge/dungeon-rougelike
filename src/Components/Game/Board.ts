@@ -8,6 +8,7 @@ import { addEvent } from '../Display/History';
 import Item from '../Pieces/Item';
 import Player from '../Pieces/Player';
 import PlayerStats from '../Display/PlayerStats';
+import { showGameOverModal } from '../Display/Modal';
 
 interface BoardProps {
   player: Player;
@@ -70,6 +71,8 @@ class Board {
   handleGameOver() {
     addEvent('Game over!');
     addEvent('Your wounds are too serious and you cannot fight anymore. The will to live leaves your body');
+    
+    showGameOverModal()
     this.gameOver = true;
   }
 
