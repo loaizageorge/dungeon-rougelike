@@ -120,6 +120,11 @@ class Board {
           this.handleExpGain(cell);
           this.removeFromBoardAndMap(cell.getPosition());
           this.movePlayer(previousCoordinate, updatedCoordinate);
+
+          if (cell.getType() === CellTypes.BOSS) {
+            addEvent('You win!');
+            // TODO: pop up game win modal
+          }
         }
       // PICK UP HEALTH / WEAPON  
       } else if (cell instanceof Item ) {

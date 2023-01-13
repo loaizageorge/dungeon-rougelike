@@ -1,4 +1,4 @@
-import { Coordinate } from '../Components/Pieces/Character';
+import { Coordinate } from './../Components/Pieces/Character';
 import Cell, { CellTypes } from '../Components/Pieces/Cell';
 import Enemy from '../Components/Pieces/Enemy';
 import Item from '../Components/Pieces/Item';
@@ -106,7 +106,7 @@ function randomize(): string {
   return 'empty';
 }
 
-export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
+export function randomWalk(map: Cell[][], seed: Coordinate): {map: Cell[][], lastPosition: Coordinate} {
   const NUM_OF_TILES = 100000;
 
   let position = seed;
@@ -141,7 +141,7 @@ export function randomWalk(map: Cell[][], seed: Coordinate): Cell[][] {
     cell.setType(CellTypes.EMPTY);
     position = updatedPosition;
   }
-  return map;
+  return {map, lastPosition: position};
 }
 
 export function generateEmptyMap(): Cell[][] {

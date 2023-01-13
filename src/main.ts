@@ -15,11 +15,13 @@ import {
 import GameMap from './Components/Game/GameMap';
 import { clearEvents } from './Components/Display/History';
 import { calculateHP } from './Utils/StatCalculator';
+import Boss from './Components/Pieces/Boss';
 
 const canvas = new Canvas(
   document.getElementById('dungeon-crawler') as HTMLCanvasElement
 );
 
+// pass in the board for game overs / restarts to get around a bug with the keyboard event listener not being removed
 function setupGame(prevBoard: Board | false): Board {
   const player = reviveHero();
   const seed = randomSeed();
@@ -27,8 +29,12 @@ function setupGame(prevBoard: Board | false): Board {
 
   const emptyMap = generateEmptyMap();
 
-  let map = randomWalk(emptyMap, seed);
+  let {map, lastPosition} = randomWalk(emptyMap, seed);
+
+  // place the hero on the game map
   map[seed.y][seed.x].setType(CellTypes.HERO);
+
+  // randomly place enemies on empty tiles
   let enemiesPlaced = 5;
   while (enemiesPlaced !== 0) {
     const random = randomSeed();
@@ -39,6 +45,7 @@ function setupGame(prevBoard: Board | false): Board {
     }
   }
 
+  // randomly place potions on empty tiles
   let itemsPlaced = 10;
   while (itemsPlaced !== 0) {
     const random = randomSeed();
@@ -49,7 +56,7 @@ function setupGame(prevBoard: Board | false): Board {
     }
   }
 
-
+  // randomly place attack boosts on empty tiles
   let xAttacks = 10;
   while (xAttacks !== 0) {
     const random = randomSeed();
@@ -59,6 +66,18 @@ function setupGame(prevBoard: Board | false): Board {
       xAttacks--;
     }
   }
+
+  // place the boss enemy on the last tile on the map
+  const bossLevel = 10;
+  const boss = new Boss({
+    position: lastPosition,
+    health: calculateHP(bossLevel, 50),
+    attack: 40,
+    level: 10,
+    type: CellTypes.BOSS,
+    experience: 100,
+  })
+  map[lastPosition.y][lastPosition.x] = boss;
 
   // keep track of the player, items, and enemies
   const gameMap = new GameMap(map);

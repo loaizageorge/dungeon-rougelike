@@ -12,7 +12,8 @@ export enum ItemTypes {
 
 export enum CharacterTypes {
   HERO,
-  ENEMY
+  ENEMY,
+  BOSS
 }
 
 export enum CellTypes {
@@ -21,7 +22,8 @@ export enum CellTypes {
   WEAPON,
   POTION,
   HERO,
-  ENEMY
+  ENEMY,
+  BOSS
 }
 
 interface CellInterface {
@@ -76,6 +78,8 @@ class Cell {
         return 'xattack';
       case CellTypes.ENEMY:
         return 'rattata'
+      case CellTypes.BOSS:
+        return 'gengar'
       default:
         return 'grass';
     }
