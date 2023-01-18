@@ -8,7 +8,7 @@ import { addEvent } from '../Display/History';
 import Item from '../Pieces/Item';
 import Player from '../Pieces/Player';
 import PlayerStats from '../Display/PlayerStats';
-import { showGameOverModal } from '../Display/Modal';
+import { showGameOverModal, showYouWinModal } from '../Display/Modal';
 
 interface BoardProps {
   player: Player;
@@ -125,8 +125,7 @@ class Board {
           this.movePlayer(previousCoordinate, updatedCoordinate);
 
           if (cell.getType() === CellTypes.BOSS) {
-            addEvent('You win!');
-            // TODO: pop up game win modal
+            showYouWinModal();
           }
         }
       // PICK UP HEALTH / WEAPON  

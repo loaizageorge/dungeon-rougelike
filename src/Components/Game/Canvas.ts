@@ -6,7 +6,7 @@ const WIDTH = 500;
 const HEIGHT = 500;
 
 // If we made the canvas bigger or smaller, this should be adjusted as well (px)
-const BOX_SIZE = 25;
+const BOX_SIZE = 50;
 
 export default class Canvas {
   canvas: HTMLCanvasElement;
